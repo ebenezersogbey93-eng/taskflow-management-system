@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Dashboard | TaskFlow</title>
+
+    <link rel="stylesheet" href="/style.css">
+
+</head>
+
+<body>
+
+<div class="layout">
+
+    <aside class="sidebar">
+
+        <div class="logo">
+            TaskFlow
+        </div>
+
+        <nav class="navigation">
+
+            <a
+                href="/dashboard"
+                class="nav-link active"
+            >
+                <span>▣</span>
+                Dashboard
+            </a>
+
+            <a
+                href="/users-page"
+                class="nav-link"
+            >
+                <span>♙</span>
+                Users
+            </a>
+
+            <a
+                href="/todos-page"
+                class="nav-link"
+            >
+                <span>✓</span>
+                TODOs
+            </a>
+
+            <a
+                href="/settings-page"
+                class="nav-link"
+            >
+                <span>⚙</span>
+                Settings
+            </a>
+
+            <a
+                href="/help-page"
+                class="nav-link"
+            >
+                <span>?</span>
+                Help
+            </a>
+
+            <a
+                href="/logout"
+                class="nav-link logout-link"
+            >
+                <span>↪</span>
+                Logout
+            </a>
+
+        </nav>
+
+    </aside>
+
+
+    <main class="main-content">
+
+        <header class="topbar">
+
+            <div class="page-title">
+
+                <h1>Dashboard</h1>
+
+                <p id="welcome-message">
+                    Welcome to your TaskFlow dashboard.
+                </p>
+
+            </div>
+
+            <div class="user-profile">
+
+                <div class="user-avatar" id="user-avatar">
+                    U
+                </div>
+
+                <div>
+
+                    <strong id="profile-username">
+                        User
+                    </strong>
+
+                    <small>
+                        Account
+                    </small>
+
+                </div>
+
+            </div>
+
+        </header>
+
+
+        <section class="stats-grid">
+
+            <div class="stat-card">
+
+                <div class="stat-icon">
+                    👥
+                </div>
+
+                <div class="stat-info">
+
+                    <span>Total Users</span>
+
+                    <h2 id="total-users">
+                        0
+                    </h2>
+
+                    <small>
+                        Registered users
+                    </small>
+
+                </div>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <div class="stat-icon">
+                    ✓
+                </div>
+
+                <div class="stat-info">
+
+                    <span>My TODOs</span>
+
+                    <h2 id="total-todos">
+                        0
+                    </h2>
+
+                    <small>
+                        Your tasks
+                    </small>
+
+                </div>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <div class="stat-icon">
+                    ●
+                </div>
+
+                <div class="stat-info">
+
+                    <span>System Status</span>
+
+                    <h2>
+                        Online
+                    </h2>
+
+                    <small>
+                        System is running
+                    </small>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <section class="dashboard-card">
+
+            <div class="section-header">
+
+                <div>
+
+                    <h2>
+                        Quick Access
+                    </h2>
+
+                    <p>
+                        Quickly access important areas.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="quick-links">
+
+                <a
+                    href="/users-page"
+                    class="quick-link"
+                >
+
+                    <span class="quick-icon">
+                        👥
+                    </span>
+
+                    <div>
+
+                        <strong>
+                            Manage Users
+                        </strong>
+
+                        <small>
+                            View and manage users
+                        </small>
+
+                    </div>
+
+                    <span class="arrow">
+                        →
+                    </span>
+
+                </a>
+
+
+                <a
+                    href="/todos-page"
+                    class="quick-link"
+                >
+
+                    <span class="quick-icon">
+                        ✓
+                    </span>
+
+                    <div>
+
+                        <strong>
+                            Manage TODOs
+                        </strong>
+
+                        <small>
+                            Manage your tasks
+                        </small>
+
+                    </div>
+
+                    <span class="arrow">
+                        →
+                    </span>
+
+                </a>
+
+
+                <a
+                    href="/settings-page"
+                    class="quick-link"
+                >
+
+                    <span class="quick-icon">
+                        ⚙
+                    </span>
+
+                    <div>
+
+                        <strong>
+                            Settings
+                        </strong>
+
+                        <small>
+                            Manage your account
+                        </small>
+
+                    </div>
+
+                    <span class="arrow">
+                        →
+                    </span>
+
+                </a>
+
+
+                <a
+                    href="/help-page"
+                    class="quick-link"
+                >
+
+                    <span class="quick-icon">
+                        ?
+                    </span>
+
+                    <div>
+
+                        <strong>
+                            Help & Support
+                        </strong>
+
+                        <small>
+                            Get help with TaskFlow
+                        </small>
+
+                    </div>
+
+                    <span class="arrow">
+                        →
+                    </span>
+
+                </a>
+
+            </div>
+
+        </section>
+
+    </main>
+
+</div>
+
+<script src="/script.js"></script>
+
+</body>
+
+</html>

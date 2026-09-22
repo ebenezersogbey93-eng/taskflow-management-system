@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>TaskFlow | User & Todo Management</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <!-- MOBILE MENU BUTTON -->
+    <button class="mobile-menu-btn" id="mobile-menu-btn">
+        ☰
+    </button>
+
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar" id="sidebar">
+
+        <div class="logo">
+            <div class="logo-icon">✓</div>
+
+            <div>
+                <h2>TaskFlow</h2>
+                <span>Management System</span>
+            </div>
+        </div>
+
+
+        <nav class="navigation">
+
+            <a href="#dashboard" class="nav-link active">
+                <span>⌂</span>
+                Dashboard
+            </a>
+
+            <a href="#users" class="nav-link">
+                <span>👥</span>
+                Users
+            </a>
+
+            <a href="#todos" class="nav-link">
+                <span>✓</span>
+                To-Dos
+            </a>
+
+        </nav>
+
+
+        <div class="sidebar-bottom">
+
+            <div class="sidebar-info">
+                <span>Node.js</span>
+                <small>SQLite Database</small>
+            </div>
+
+        </div>
+
+    </aside>
+
+
+    <!-- MAIN CONTENT -->
+    <main class="main-content" id="dashboard">
+
+        <!-- TOP BAR -->
+        <header class="topbar">
+
+            <div>
+                <p class="welcome-small">Welcome back 👋</p>
+
+                <h1>Dashboard</h1>
+
+                <p class="subtitle">
+                    Manage your users and tasks from one place.
+                </p>
+            </div>
+
+        </header>
+
+
+        <!-- STATISTICS CARDS -->
+        <section class="stats-grid">
+
+            <div class="stat-card">
+
+                <div class="stat-icon users-icon">
+                    👥
+                </div>
+
+                <div>
+                    <p>Total Users</p>
+                    <h2 id="total-users">0</h2>
+                </div>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <div class="stat-icon todo-icon">
+                    ✓
+                </div>
+
+                <div>
+                    <p>Total To-Dos</p>
+                    <h2 id="total-todos">0</h2>
+                </div>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <div class="stat-icon completed-icon">
+                    ✓
+                </div>
+
+                <div>
+                    <p>Completed</p>
+                    <h2 id="completed-todos">0</h2>
+                </div>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <div class="stat-icon pending-icon">
+                    !
+                </div>
+
+                <div>
+                    <p>Pending</p>
+                    <h2 id="pending-todos">0</h2>
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- USERS SECTION -->
+        <section class="content-card" id="users">
+
+            <div class="section-header">
+
+                <div>
+                    <span class="section-label">USER MANAGEMENT</span>
+                    <h2>Users</h2>
+
+                    <p>
+                        Manage users registered in the system.
+                    </p>
+                </div>
+
+                <button class="primary-btn" id="focus-user-form">
+                    + Add User
+                </button>
+
+            </div>
+
+
+            <!-- SEARCH -->
+            <div class="search-box">
+
+                <span>🔍</span>
+
+                <input
+                    type="text"
+                    id="user-search"
+                    placeholder="Search users by username or email..."
+                >
+
+            </div>
+
+
+            <!-- CREATE USER -->
+            <div class="create-user-box">
+
+                <h3>Create New User</h3>
+
+                <form id="user-form">
+
+                    <input
+                        type="text"
+                        id="username"
+                        placeholder="Username"
+                        required
+                    >
+
+                    <input
+                        type="email"
+                        id="email"
+                        placeholder="Email address"
+                        required
+                    >
+
+                    <input
+                        type="password"
+                        id="password"
+                        placeholder="Password"
+                        required
+                    >
+
+                    <button type="submit" class="primary-btn">
+                        Create User
+                    </button>
+
+                </form>
+
+                <p id="user-message"></p>
+
+            </div>
+
+
+            <!-- USERS TABLE -->
+            <div class="table-wrapper">
+
+                <table>
+
+                    <thead>
+
+                        <tr>
+                            <th>ID</th>
+                            <th>User</th>
+                            <th>Email</th>
+                            <th>Actions</th>
+                        </tr>
+
+                    </thead>
+
+                    <tbody id="users-table">
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </section>
+
+
+        <!-- TODO SECTION -->
+        <section class="content-card" id="todos">
+
+            <div class="section-header">
+
+                <div>
+                    <span class="section-label">TASK MANAGEMENT</span>
+
+                    <h2>To-Do List</h2>
+
+                    <p>
+                        View tasks and the users who created them.
+                    </p>
+                </div>
+
+                <button class="primary-btn">
+                    + Add Task
+                </button>
+
+            </div>
+
+
+            <!-- TODO SEARCH -->
+            <div class="search-box">
+
+                <span>🔍</span>
+
+                <input
+                    type="text"
+                    id="todo-search"
+                    placeholder="Search tasks..."
+                >
+
+            </div>
+
+
+            <!-- TODO CARDS -->
+            <div id="todo-container" class="todo-grid">
+
+            </div>
+
+
+            <div id="loading" class="loading">
+                Loading tasks...
+            </div>
+
+        </section>
+
+
+        <!-- FOOTER -->
+        <footer>
+
+            <p>
+                © 2026 TaskFlow. User & To-Do Management System.
+            </p>
+
+            <p>
+                Built with Node.js • Express • SQLite
+            </p>
+
+        </footer>
+
+    </main>
+
+
+    <script src="script.js"></script>
+
+</body>
+
+</html>
