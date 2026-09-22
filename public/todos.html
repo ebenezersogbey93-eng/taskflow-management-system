@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>TaskFlow | Todos</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<div class="app">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+
+        <div class="logo">
+            <div class="logo-icon">✓</div>
+
+            <div>
+                <h2>TaskFlow</h2>
+                <p>TODO Management</p>
+            </div>
+        </div>
+
+        <nav class="sidebar-nav">
+
+            <a href="/" class="nav-link">
+                <span class="nav-icon">▦</span>
+                <span>Dashboard</span>
+            </a>
+
+            <a href="/users.html" class="nav-link">
+                <span class="nav-icon">👥</span>
+                <span>Users</span>
+            </a>
+
+            <a href="/todos.html" class="nav-link active">
+                <span class="nav-icon">✓</span>
+                <span>Todos</span>
+            </a>
+
+        </nav>
+
+    </aside>
+
+
+    <!-- MAIN CONTENT -->
+    <main class="main-content">
+
+        <!-- TOP BAR -->
+        <header class="topbar">
+
+            <div>
+                <h1>Todos</h1>
+                <p>Create, edit, complete and manage your Todos.</p>
+            </div>
+
+            <div class="user-profile">
+
+                <div class="profile-icon">A</div>
+
+                <div>
+                    <strong>Admin</strong>
+                    <small>Administrator</small>
+                </div>
+
+            </div>
+
+        </header>
+
+
+        <!-- CONTENT -->
+        <section class="content">
+
+
+            <!-- ADD TODO -->
+            <div class="section-card">
+
+                <div class="section-header">
+
+                    <div>
+                        <h2 id="todo-form-title">Add New Todo</h2>
+
+                        <p id="todo-form-description">
+                            Create a Todo and assign it to a user.
+                        </p>
+                    </div>
+
+                </div>
+
+
+                <form id="todo-form">
+
+                    <div class="form-grid">
+
+                        <!-- USER -->
+                        <div class="form-group">
+
+                            <label for="todo-user">
+                                Select User
+                            </label>
+
+                            <select id="todo-user" required>
+
+                                <option value="">
+                                    Select a user
+                                </option>
+
+                            </select>
+
+                        </div>
+
+
+                        <!-- DESCRIPTION -->
+                        <div class="form-group">
+
+                            <label for="description">
+                                Todo Description
+                            </label>
+
+                            <textarea
+                                id="description"
+                                rows="3"
+                                placeholder="Enter Todo description..."
+                                required
+                            ></textarea>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="form-actions">
+
+                        <button
+                            type="submit"
+                            class="primary-btn"
+                        >
+                            Add Todo
+                        </button>
+
+                        <button
+                            type="button"
+                            id="cancel-todo-edit"
+                            class="cancel-btn"
+                            onclick="resetTodoForm()"
+                        >
+                            Cancel
+                        </button>
+
+                    </div>
+
+                </form>
+
+            </div>
+
+
+            <!-- TODO LIST -->
+            <div class="section-card">
+
+                <div class="section-header">
+
+                    <div>
+
+                        <h2>All Todos</h2>
+
+                        <p>
+                            View and manage Todos created by users.
+                        </p>
+
+                    </div>
+
+                    <span id="todo-count">
+                        0 Todos
+                    </span>
+
+                </div>
+
+
+                <div id="todo-container">
+
+                    <div class="empty-state">
+                        <h3>No Todos Yet</h3>
+
+                        <p>
+                            Create a Todo using the form above.
+                        </p>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- LOADING -->
+        <div id="loading" class="loading">
+            Loading...
+        </div>
+
+
+        <!-- NOTIFICATION -->
+        <div id="notification" class="notification">
+
+            <span id="notification-message"></span>
+
+        </div>
+
+    </main>
+
+</div>
+
+
+<!-- JAVASCRIPT -->
+<script src="script.js"></script>
+
+</body>
+</html>

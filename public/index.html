@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>TaskFlow | Dashboard</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<div class="app">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+
+        <div class="logo">
+            <div class="logo-icon">✓</div>
+
+            <div>
+                <h2>TaskFlow</h2>
+                <p>TODO Management</p>
+            </div>
+        </div>
+
+     <nav class="sidebar-nav">
+
+    <a href="/" class="nav-link active">
+        <span class="nav-icon">▦</span>
+        <span>Dashboard</span>
+    </a>
+
+    <a href="/users.html" class="nav-link">
+        <span class="nav-icon">👥</span>
+        <span>Users</span>
+    </a>
+
+    <a href="/todos.html" class="nav-link">
+        <span class="nav-icon">✓</span>
+        <span>Todos</span>
+    </a>
+
+</nav>
+
+    </aside>
+
+
+    <!-- MAIN CONTENT -->
+    <main class="main-content">
+
+        <header class="topbar">
+
+            <div>
+                <h1>Dashboard</h1>
+                <p>Welcome to your TODO management system.</p>
+            </div>
+
+            <div class="user-profile">
+                <div class="profile-icon">A</div>
+                <div>
+                    <strong>Admin</strong>
+                    <small>Administrator</small>
+                </div>
+            </div>
+
+        </header>
+
+
+        <section class="content">
+
+            <!-- STATISTICS -->
+
+            <div class="stats-grid">
+
+                <div class="stat-card">
+                    <div class="stat-icon blue">👥</div>
+                    <div>
+                        <p>Total Users</p>
+                        <h2 id="total-users">0</h2>
+                    </div>
+                </div>
+
+
+                <div class="stat-card">
+                    <div class="stat-icon purple">✓</div>
+                    <div>
+                        <p>Total Todos</p>
+                        <h2 id="total-todos">0</h2>
+                    </div>
+                </div>
+
+
+                <div class="stat-card">
+                    <div class="stat-icon green">✓</div>
+                    <div>
+                        <p>Completed</p>
+                        <h2 id="completed-todos">0</h2>
+                    </div>
+                </div>
+
+
+                <div class="stat-card">
+                    <div class="stat-icon orange">○</div>
+                    <div>
+                        <p>Pending</p>
+                        <h2 id="pending-todos">0</h2>
+                    </div>
+                </div>
+
+            </div>
+
+
+            <!-- QUICK ACTIONS -->
+
+            <div class="section-card">
+
+                <div class="section-header">
+                    <div>
+                        <h2>Quick Actions</h2>
+                        <p>Manage your users and Todos.</p>
+                    </div>
+                </div>
+
+
+                <div class="quick-actions">
+
+                    <a href="users.html" class="quick-action">
+                        <div class="quick-icon">👤</div>
+
+                        <div>
+                            <h3>Manage Users</h3>
+                            <p>Create, edit and delete users.</p>
+                        </div>
+                    </a>
+
+
+                    <a href="todos.html" class="quick-action">
+                        <div class="quick-icon">✓</div>
+
+                        <div>
+                            <h3>Manage Todos</h3>
+                            <p>Create and manage user Todos.</p>
+                        </div>
+                    </a>
+
+                </div>
+
+            </div>
+
+
+            <!-- RECENT TODOS -->
+
+            <div class="section-card">
+
+                <div class="section-header">
+
+                    <div>
+                        <h2>Recent Todos</h2>
+                        <p>Latest tasks created by users.</p>
+                    </div>
+
+                    <a href="todos.html" class="view-all">
+                        View All
+                    </a>
+
+                </div>
+
+                <div id="recent-todos">
+                    <div class="empty-state">
+                        No recent Todos.
+                    </div>
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <div id="loading" class="loading">
+            Loading...
+        </div>
+
+
+        <div id="notification" class="notification">
+            <span id="notification-message"></span>
+        </div>
+
+    </main>
+
+</div>
+
+
+<script src="script.js"></script>
+
+</body>
+</html>
