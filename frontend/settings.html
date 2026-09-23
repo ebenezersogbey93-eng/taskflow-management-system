@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Settings | TaskFlow</title>
+    <link rel="stylesheet" href="/style.css" />
+</head>
+<body>
+<div class="layout">
+    <aside class="sidebar">
+        <div class="logo">TaskFlow</div>
+        <nav class="navigation">
+            <a href="/dashboard" class="nav-link"><span>▣</span> Dashboard</a>
+            <a href="/users-page" class="nav-link"><span>♙</span> Users</a>
+            <a href="/todos-page" class="nav-link"><span>✓</span> TODOs</a>
+            <a href="/settings-page" class="nav-link active"><span>⚙</span> Settings</a>
+            <a href="/help-page" class="nav-link"><span>?</span> Help</a>
+            <a href="/logout" class="nav-link logout-link"><span>↪</span> Logout</a>
+        </nav>
+    </aside>
+
+    <main class="main-content">
+        <header class="topbar">
+            <div class="page-title">
+                <h1>Settings</h1>
+                <p>Manage your application preferences.</p>
+            </div>
+        </header>
+
+        <section class="dashboard-card">
+            <h2>App Settings</h2>
+            <form id="settings-form">
+                <div class="form-row">
+                    <input type="text" id="app-name" value="TaskFlow" placeholder="App name" />
+                    <input type="email" id="admin-email" value="admin@taskflow.com" placeholder="Admin email" />
+                </div>
+                <button type="submit" class="button-link form-button">Save Settings</button>
+            </form>
+            <p id="settings-message">Settings are ready to be updated.</p>
+        </section>
+    </main>
+</div>
+
+<script src="/users.js"></script>
+</body>
+</html>

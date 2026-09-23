@@ -2,9 +2,9 @@
   "name": "taskflow-management-system",
   "version": "1.0.0",
   "description": "TaskFlow Management System",
-  "main": "server.js",
+  "main": "backend/server.js",
   "scripts": {
-    "start": "node server.js"
+    "start": "node backend/server.js"
   },
   "dependencies": {
     "bcrypt": "^5.1.1",

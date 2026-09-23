@@ -13,8 +13,49 @@ const PORT = process.env.PORT || 3000;
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Serve frontend files from public folder
-app.use(express.static(path.join(__dirname, "public")));
+// Serve frontend files
+app.use(express.static(path.join(__dirname, "..", "frontend")));
+
+app.get("/", (req, res) => {
+    res.sendFile(
+        path.join(__dirname, "..", "frontend", "index.html")
+    );
+});
+
+app.get("/dashboard", (req, res) => {
+    res.sendFile(
+        path.join(__dirname, "..", "frontend", "index.html")
+    );
+});
+
+app.get("/users-page", (req, res) => {
+    res.sendFile(
+        path.join(__dirname, "..", "frontend", "users.html")
+    );
+});
+
+app.get("/todos-page", (req, res) => {
+    res.sendFile(
+        path.join(__dirname, "..", "frontend", "todos.html")
+    );
+});
+
+app.get("/settings-page", (req, res) => {
+    res.sendFile(
+        path.join(__dirname, "..", "frontend", "settings.html")
+    );
+});
+
+app.get("/help-page", (req, res) => {
+    res.sendFile(
+        path.join(__dirname, "..", "frontend", "help.html")
+    );
+});
+
+app.get("/logout", (req, res) => {
+    res.redirect("/");
+});
+
 // ============================================================
 // DATABASE
 // ============================================================
