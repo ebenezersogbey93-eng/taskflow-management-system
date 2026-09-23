@@ -1,176 +1,189 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>TaskFlow | Dashboard</title>
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
 
-    <link rel="stylesheet" href="css/style.css">
+    <title>Dashboard | TaskFlow</title>
+
+    <link rel="stylesheet" href="/style.css">
+
 </head>
 
 <body>
 
-<div class="app">
+<div class="layout">
 
-    <!-- SIDEBAR -->
     <aside class="sidebar">
 
         <div class="logo">
-            <div class="logo-icon">✓</div>
-
-            <div>
-                <h2>TaskFlow</h2>
-                <p>TODO Management</p>
-            </div>
+            TaskFlow
         </div>
 
-     <nav class="sidebar-nav">
+        <nav class="navigation">
 
-    <a href="/" class="nav-link active">
-        <span class="nav-icon">▦</span>
-        <span>Dashboard</span>
-    </a>
+            <a
+                href="/dashboard"
+                class="nav-link active"
+            >
+                <span>▣</span>
+                Dashboard
+            </a>
 
-    <a href="/users.html" class="nav-link">
-        <span class="nav-icon">👥</span>
-        <span>Users</span>
-    </a>
+            <a
+                href="/users-page"
+                class="nav-link"
+            >
+                <span>♙</span>
+                Users
+            </a>
 
-    <a href="/todos.html" class="nav-link">
-        <span class="nav-icon">✓</span>
-        <span>Todos</span>
-    </a>
+            <a
+                href="/todos-page"
+                class="nav-link"
+            >
+                <span>✓</span>
+                TODOs
+            </a>
 
-</nav>
+            <a
+                href="/settings-page"
+                class="nav-link"
+            >
+                <span>⚙</span>
+                Settings
+            </a>
+
+            <a
+                href="/help-page"
+                class="nav-link"
+            >
+                <span>?</span>
+                Help
+            </a>
+
+            <a
+                href="/logout"
+                class="nav-link logout-link"
+            >
+                <span>↪</span>
+                Logout
+            </a>
+
+        </nav>
 
     </aside>
 
 
-    <!-- MAIN CONTENT -->
     <main class="main-content">
 
         <header class="topbar">
 
-            <div>
+            <div class="page-title">
+
                 <h1>Dashboard</h1>
-                <p>Welcome to your TODO management system.</p>
+
+                <p id="welcome-message">
+                    Welcome to your TaskFlow dashboard.
+                </p>
+
             </div>
 
             <div class="user-profile">
-                <div class="profile-icon">A</div>
-                <div>
-                    <strong>Admin</strong>
-                    <small>Administrator</small>
+
+                <div class="user-avatar" id="user-avatar">
+                    U
                 </div>
+
+                <div>
+
+                    <strong id="profile-username">
+                        User
+                    </strong>
+
+                    <small>
+                        Account
+                    </small>
+
+                </div>
+
             </div>
 
         </header>
 
 
-        <section class="content">
+        <section class="stats-grid">
 
-            <!-- STATISTICS -->
+            <div class="stat-card">
 
-            <div class="stats-grid">
-
-                <div class="stat-card">
-                    <div class="stat-icon blue">👥</div>
-                    <div>
-                        <p>Total Users</p>
-                        <h2 id="total-users">0</h2>
-                    </div>
+                <div class="stat-icon">
+                    👥
                 </div>
 
+                <div class="stat-info">
 
-                <div class="stat-card">
-                    <div class="stat-icon purple">✓</div>
-                    <div>
-                        <p>Total Todos</p>
-                        <h2 id="total-todos">0</h2>
-                    </div>
-                </div>
+                    <span>Total Users</span>
 
+                    <h2 id="total-users">
+                        0
+                    </h2>
 
-                <div class="stat-card">
-                    <div class="stat-icon green">✓</div>
-                    <div>
-                        <p>Completed</p>
-                        <h2 id="completed-todos">0</h2>
-                    </div>
-                </div>
-
-
-                <div class="stat-card">
-                    <div class="stat-icon orange">○</div>
-                    <div>
-                        <p>Pending</p>
-                        <h2 id="pending-todos">0</h2>
-                    </div>
-                </div>
-
-            </div>
-
-
-            <!-- QUICK ACTIONS -->
-
-            <div class="section-card">
-
-                <div class="section-header">
-                    <div>
-                        <h2>Quick Actions</h2>
-                        <p>Manage your users and Todos.</p>
-                    </div>
-                </div>
-
-
-                <div class="quick-actions">
-
-                    <a href="users.html" class="quick-action">
-                        <div class="quick-icon">👤</div>
-
-                        <div>
-                            <h3>Manage Users</h3>
-                            <p>Create, edit and delete users.</p>
-                        </div>
-                    </a>
-
-
-                    <a href="todos.html" class="quick-action">
-                        <div class="quick-icon">✓</div>
-
-                        <div>
-                            <h3>Manage Todos</h3>
-                            <p>Create and manage user Todos.</p>
-                        </div>
-                    </a>
+                    <small>
+                        Registered users
+                    </small>
 
                 </div>
 
             </div>
 
 
-            <!-- RECENT TODOS -->
+            <div class="stat-card">
 
-            <div class="section-card">
+                <div class="stat-icon">
+                    ✓
+                </div>
 
-                <div class="section-header">
+                <div class="stat-info">
 
-                    <div>
-                        <h2>Recent Todos</h2>
-                        <p>Latest tasks created by users.</p>
-                    </div>
+                    <span>My TODOs</span>
 
-                    <a href="todos.html" class="view-all">
-                        View All
-                    </a>
+                    <h2 id="total-todos">
+                        0
+                    </h2>
+
+                    <small>
+                        Your tasks
+                    </small>
 
                 </div>
 
-                <div id="recent-todos">
-                    <div class="empty-state">
-                        No recent Todos.
-                    </div>
+            </div>
+
+
+            <div class="stat-card">
+
+                <div class="stat-icon">
+                    ●
+                </div>
+
+                <div class="stat-info">
+
+                    <span>System Status</span>
+
+                    <h2>
+                        Online
+                    </h2>
+
+                    <small>
+                        System is running
+                    </small>
+
                 </div>
 
             </div>
@@ -178,22 +191,148 @@
         </section>
 
 
-        <div id="loading" class="loading">
-            Loading...
-        </div>
+        <section class="dashboard-card">
+
+            <div class="section-header">
+
+                <div>
+
+                    <h2>
+                        Quick Access
+                    </h2>
+
+                    <p>
+                        Quickly access important areas.
+                    </p>
+
+                </div>
+
+            </div>
 
 
-        <div id="notification" class="notification">
-            <span id="notification-message"></span>
-        </div>
+            <div class="quick-links">
+
+                <a
+                    href="/users-page"
+                    class="quick-link"
+                >
+
+                    <span class="quick-icon">
+                        👥
+                    </span>
+
+                    <div>
+
+                        <strong>
+                            Manage Users
+                        </strong>
+
+                        <small>
+                            View and manage users
+                        </small>
+
+                    </div>
+
+                    <span class="arrow">
+                        →
+                    </span>
+
+                </a>
+
+
+                <a
+                    href="/todos-page"
+                    class="quick-link"
+                >
+
+                    <span class="quick-icon">
+                        ✓
+                    </span>
+
+                    <div>
+
+                        <strong>
+                            Manage TODOs
+                        </strong>
+
+                        <small>
+                            Manage your tasks
+                        </small>
+
+                    </div>
+
+                    <span class="arrow">
+                        →
+                    </span>
+
+                </a>
+
+
+                <a
+                    href="/settings-page"
+                    class="quick-link"
+                >
+
+                    <span class="quick-icon">
+                        ⚙
+                    </span>
+
+                    <div>
+
+                        <strong>
+                            Settings
+                        </strong>
+
+                        <small>
+                            Manage your account
+                        </small>
+
+                    </div>
+
+                    <span class="arrow">
+                        →
+                    </span>
+
+                </a>
+
+
+                <a
+                    href="/help-page"
+                    class="quick-link"
+                >
+
+                    <span class="quick-icon">
+                        ?
+                    </span>
+
+                    <div>
+
+                        <strong>
+                            Help & Support
+                        </strong>
+
+                        <small>
+                            Get help with TaskFlow
+                        </small>
+
+                    </div>
+
+                    <span class="arrow">
+                        →
+                    </span>
+
+                </a>
+
+            </div>
+
+        </section>
 
     </main>
 
 </div>
 
-<script src="js/api.js"></script>
-<script src="js/dashboard.js"></script>
-
+<script src="/script.js"></script>
 
 </body>
+
 </html>

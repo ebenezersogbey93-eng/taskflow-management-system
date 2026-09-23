@@ -61,7 +61,7 @@ db.run(`
 // GET ALL USERS
 // =============================
 
-app.get("/users", (req, res) => {
+app.get("/api/users", (req, res) => {
     db.all(
         "SELECT id, username, email FROM Users",
         [],
@@ -81,7 +81,7 @@ app.get("/users", (req, res) => {
 // POST NEW USER
 // =============================
 
-app.post("/users", async (req, res) => {
+app.post("/api/users", async (req, res) => {
     const { username, email, password } = req.body;
 
     if (!username || !email || !password) {
@@ -125,7 +125,7 @@ app.post("/users", async (req, res) => {
 // PUT / UPDATE USER
 // =============================
 
-app.put("/users/:id", async (req, res) => {
+app.put("/api/users/:id", async (req, res) => {
     const userId = req.params.id;
     const { username, email, password } = req.body;
 
@@ -198,7 +198,7 @@ app.put("/users/:id", async (req, res) => {
 // POST NEW TODO
 // =============================
 
-app.post("/todos", (req, res) => {
+app.post("/api/todos", (req, res) => {
     const { user_id, description } = req.body;
 
     if (!user_id || !description) {
@@ -235,7 +235,7 @@ app.post("/todos", (req, res) => {
 // GET ALL TODOS
 // =============================
 
-app.get("/todos", (req, res) => {
+app.get("/api/todos", (req, res) => {
     db.all(
         "SELECT * FROM Todos",
         [],

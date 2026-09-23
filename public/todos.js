@@ -17,7 +17,7 @@ async function loadTodos() {
     try {
 
         const response =
-            await fetch("/todos");
+            await fetch("/api/todos");
 
         const todos =
             await response.json();
@@ -144,7 +144,7 @@ todoForm.addEventListener(
 
             const response =
                 await fetch(
-                    "/todos",
+                        "/api/todos",
                     {
                         method: "POST",
 
@@ -206,7 +206,7 @@ async function toggleTodo(
     try {
 
         await fetch(
-            `/todos/${id}`,
+                        `/api/todos/${id}`,
             {
                 method: "PUT",
 
@@ -251,7 +251,7 @@ async function deleteTodo(id) {
 
         const response =
             await fetch(
-                `/todos/${id}`,
+                        `/api/todos/${id}`,
                 {
                     method: "DELETE"
                 }

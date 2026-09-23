@@ -12,7 +12,7 @@ async function fetchUsers() {
 
     try {
 
-        const response = await fetch("/users");
+        const response = await fetch("/api/users");
 
         if (!response.ok) {
             throw new Error("Failed to fetch users");
@@ -188,7 +188,7 @@ document
 
         try {
 
-            const response = await fetch("/users", {
+            const response = await fetch("/api/users", {
 
                 method: "POST",
 
@@ -294,7 +294,7 @@ async function editUser(
 
 
         const response = await fetch(
-            `/users/${id}`,
+            `/api/users/${id}`,
             {
 
                 method: "PUT",
@@ -355,7 +355,7 @@ async function deleteUser(id) {
     try {
 
         const response = await fetch(
-            `/users/${id}`,
+            `/api/users/${id}`,
             {
                 method: "DELETE"
             }
@@ -410,7 +410,7 @@ async function fetchTodos() {
     try {
 
         const response =
-            await fetch("/todos");
+            await fetch("/api/todos");
 
 
         if (!response.ok) {

@@ -38,7 +38,7 @@ async function fetchUsers() {
     try {
 
         const response =
-            await fetch("/users");
+            await fetch("/api/users");
 
         if (!response.ok) {
             throw new Error("Could not load users");
@@ -256,7 +256,7 @@ document
 
                 const response =
                     await fetch(
-                        "/users",
+                        "/api/users",
                         {
 
                             method: "POST",
@@ -359,7 +359,7 @@ async function editUser(
 
         const response =
             await fetch(
-                `/users/${id}`,
+                `/api/users/${id}`,
                 {
 
                     method: "PUT",
@@ -434,7 +434,7 @@ async function deleteUser(id) {
 
         const response =
             await fetch(
-                `/users/${id}`,
+                `/api/users/${id}`,
                 {
                     method: "DELETE"
                 }
@@ -528,7 +528,7 @@ document
 
                 const response =
                     await fetch(
-                        "/todos",
+                        "/api/todos",
                         {
 
                             method: "POST",
@@ -603,7 +603,7 @@ async function fetchTodos() {
     try {
 
         const response =
-            await fetch("/todos");
+            await fetch("/api/todos");
 
 
         if (!response.ok) {
@@ -834,7 +834,7 @@ async function editTodo(
 
         const response =
             await fetch(
-                `/todos/${id}`,
+                `/api/todos/${id}`,
                 {
 
                     method: "PUT",
@@ -911,7 +911,7 @@ async function deleteTodo(id) {
 
         const response =
             await fetch(
-                `/todos/${id}`,
+                `/api/todos/${id}`,
                 {
                     method: "DELETE"
                 }

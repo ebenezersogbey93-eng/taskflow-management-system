@@ -5,7 +5,7 @@ async function fetchTodos() {
 
     try {
 
-        const response = await fetch("/todos");
+        const response = await fetch("/api/todos");
 
         if (!response.ok) {
             throw new Error("Failed to fetch TODOs");

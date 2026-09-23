@@ -1,52 +1,79 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>TaskFlow | Users</title>
-
-    <link rel="stylesheet" href="css/style.css">
-
-    <link
-        rel="stylesheet"
-        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
     >
+
+    <title>Users | TaskFlow</title>
+
+    <link rel="stylesheet" href="/style.css">
+
 </head>
 
 <body>
 
-<div class="app">
+<div class="layout">
 
-    <!-- SIDEBAR -->
     <aside class="sidebar">
 
-        <div class="logo-section">
-            <div class="logo-icon">
-                <i class="fas fa-check"></i>
-            </div>
-
-            <div>
-                <h2>TaskFlow</h2>
-                <p>TODO Management</p>
-            </div>
+        <div class="logo">
+            TaskFlow
         </div>
 
-        <nav class="sidebar-nav">
+        <nav class="navigation">
 
-            <a href="/" class="nav-link">
-                <i class="fas fa-table-cells-large"></i>
-                <span>Dashboard</span>
+            <a
+                href="/dashboard"
+                class="nav-link"
+            >
+                <span>▣</span>
+                Dashboard
             </a>
 
-            <a href="/users.html" class="nav-link active">
-                <i class="fas fa-users"></i>
-                <span>Users</span>
+            <a
+                href="/users-page"
+                class="nav-link active"
+            >
+                <span>♙</span>
+                Users
             </a>
 
-            <a href="/todos.html" class="nav-link">
-                <i class="fas fa-check"></i>
-                <span>Todos</span>
+            <a
+                href="/todos-page"
+                class="nav-link"
+            >
+                <span>✓</span>
+                TODOs
+            </a>
+
+            <a
+                href="/settings-page"
+                class="nav-link"
+            >
+                <span>⚙</span>
+                Settings
+            </a>
+
+            <a
+                href="/help-page"
+                class="nav-link"
+            >
+                <span>?</span>
+                Help
+            </a>
+
+            <a
+                href="/logout"
+                class="nav-link logout-link"
+            >
+                <span>↪</span>
+                Logout
             </a>
 
         </nav>
@@ -54,140 +81,124 @@
     </aside>
 
 
-    <!-- MAIN CONTENT -->
     <main class="main-content">
 
-        <header class="page-header">
+        <header class="topbar">
 
-            <div>
+            <div class="page-title">
+
                 <h1>Users</h1>
-                <p>Manage users in your TaskFlow system.</p>
-            </div>
 
-            <div class="admin-profile">
-                <div class="avatar">A</div>
+                <p>
+                    Manage users registered in TaskFlow.
+                </p>
 
-                <div>
-                    <strong>Admin</strong>
-                    <small>Administrator</small>
-                </div>
             </div>
 
         </header>
 
 
-        <!-- CREATE USER -->
-        <section class="card">
+        <section class="dashboard-card">
 
-            <div class="card-header">
-                <div>
-                    <h2 id="form-title">Add New User</h2>
-                    <p>Create a new TaskFlow user.</p>
-                </div>
-            </div>
+            <h2>
+                Add New User
+            </h2>
 
-            <form id="user-form">
+            <form id="add-user-form">
 
-                <input type="hidden" id="user-id">
+                <div class="form-row">
 
-                <div class="form-grid">
+                    <input
+                        type="text"
+                        id="new-username"
+                        placeholder="Username"
+                        required
+                    >
 
-                    <div class="form-group">
-                        <label for="username">Username</label>
+                    <input
+                        type="email"
+                        id="new-email"
+                        placeholder="Email"
+                        required
+                    >
 
-                        <input
-                            type="text"
-                            id="username"
-                            placeholder="Enter username"
-                            required
-                        >
-                    </div>
-
-
-                    <div class="form-group">
-                        <label for="email">Email</label>
-
-                        <input
-                            type="email"
-                            id="email"
-                            placeholder="Enter email"
-                            required
-                        >
-                    </div>
-
-
-                    <div class="form-group">
-                        <label for="password">
-                            Password
-                            <span id="password-note">(required for new users)</span>
-                        </label>
-
-                        <input
-                            type="password"
-                            id="password"
-                            placeholder="Enter password"
-                        >
-                    </div>
-
-                </div>
-
-
-                <div class="form-actions">
-
-                    <button type="submit" class="btn btn-primary">
-                        <i class="fas fa-user-plus"></i>
-                        <span id="submit-text">Create User</span>
-                    </button>
+                    <input
+                        type="password"
+                        id="new-password"
+                        placeholder="Password"
+                        required
+                    >
 
                     <button
-                        type="button"
-                        class="btn btn-secondary"
-                        id="cancel-edit"
-                        style="display:none;"
+                        type="submit"
+                        class="button-link form-button"
                     >
-                        Cancel
+                        Add User
                     </button>
 
                 </div>
 
-            </form>
+                <p id="user-message"></p>
 
-            <div id="user-message"></div>
+            </form>
 
         </section>
 
 
-        <!-- USERS LIST -->
-        <section class="card">
+        <section class="dashboard-card">
 
-            <div class="card-header">
+            <div class="section-header">
 
                 <div>
-                    <h2>All Users</h2>
-                    <p>
-                        <span id="user-count">0</span>
-                        users registered.
-                    </p>
-                </div>
 
-                <button
-                    type="button"
-                    class="btn btn-secondary"
-                    id="refresh-users"
-                >
-                    <i class="fas fa-refresh"></i>
-                    Refresh
-                </button>
+                    <h2>
+                        All Users
+                    </h2>
+
+                    <p>
+                        Registered TaskFlow users.
+                    </p>
+
+                </div>
 
             </div>
 
 
-            <div id="user-container">
+            <div class="table-container">
 
-                <div class="empty-state">
-                    <i class="fas fa-users"></i>
-                    <p>Loading users...</p>
-                </div>
+                <table>
+
+                    <thead>
+
+                        <tr>
+
+                            <th>ID</th>
+
+                            <th>Username</th>
+
+                            <th>Email</th>
+
+                            <th>Status</th>
+
+                            <th>Action</th>
+
+                        </tr>
+
+                    </thead>
+
+                    <tbody id="users-table">
+
+                        <tr>
+
+                            <td colspan="5">
+                                Loading users...
+                            </td>
+
+                        </tr>
+
+                    </tbody>
+
+                </table>
 
             </div>
 
@@ -197,9 +208,8 @@
 
 </div>
 
-
-<script src="js/api.js"></script>
-<script src="js/users.js"></script>
+<script src="/users.js"></script>
 
 </body>
+
 </html>

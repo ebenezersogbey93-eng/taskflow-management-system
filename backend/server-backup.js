@@ -63,7 +63,7 @@ db.run(`
 // GET ALL USERS
 // ==========================================
 
-app.get("/users", (req, res) => {
+app.get("/api/users", (req, res) => {
 
     const sql = `
         SELECT id, username, email
@@ -87,7 +87,7 @@ app.get("/users", (req, res) => {
 // CREATE USER
 // ==========================================
 
-app.post("/users", async (req, res) => {
+app.post("/api/users", async (req, res) => {
 
     const { username, email, password } = req.body;
 
@@ -148,7 +148,7 @@ app.post("/users", async (req, res) => {
 // EDIT / UPDATE USER
 // ==========================================
 
-app.put("/users/:id", async (req, res) => {
+app.put("/api/users/:id", async (req, res) => {
 
     const userId = req.params.id;
 
@@ -259,7 +259,7 @@ app.put("/users/:id", async (req, res) => {
 // Deletes user's TODOs first
 // ==========================================
 
-app.delete("/users/:id", (req, res) => {
+app.delete("/api/users/:id", (req, res) => {
 
     const userId = req.params.id;
 
@@ -341,7 +341,7 @@ app.delete("/users/:id", (req, res) => {
 // Includes the user who owns each TODO
 // ==========================================
 
-app.get("/todos", (req, res) => {
+app.get("/api/todos", (req, res) => {
 
     const sql = `
         SELECT
@@ -372,7 +372,7 @@ app.get("/todos", (req, res) => {
 // CREATE TODO
 // ==========================================
 
-app.post("/todos", (req, res) => {
+app.post("/api/todos", (req, res) => {
 
     const {
         user_id,
@@ -437,7 +437,7 @@ app.post("/todos", (req, res) => {
 // EDIT / UPDATE TODO
 // ==========================================
 
-app.put("/todos/:id", (req, res) => {
+app.put("/api/todos/:id", (req, res) => {
 
     const todoId = req.params.id;
 
@@ -506,7 +506,7 @@ app.put("/todos/:id", (req, res) => {
 // DELETE TODO
 // ==========================================
 
-app.delete("/todos/:id", (req, res) => {
+app.delete("/api/todos/:id", (req, res) => {
 
     const todoId = req.params.id;
 

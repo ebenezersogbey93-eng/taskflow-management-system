@@ -13,7 +13,7 @@ async function loadUsers() {
     try {
 
         const response =
-            await fetch("/users");
+            await fetch("/api/users");
 
         const users =
             await response.json();
@@ -115,7 +115,7 @@ addUserForm.addEventListener(
 
             const response =
                 await fetch(
-                    "/users",
+                        "/api/users",
                     {
                         method: "POST",
 
@@ -184,7 +184,7 @@ async function deleteUser(id) {
 
         const response =
             await fetch(
-                `/users/${id}`,
+                        `/api/users/${id}`,
                 {
                     method: "DELETE"
                 }
