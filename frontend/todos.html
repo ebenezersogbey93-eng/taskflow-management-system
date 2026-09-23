@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>TaskFlow | Todos</title>
+
+    <link rel="stylesheet" href="css/style.css">
+
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+    >
+
+</head>
+
+
+<body>
+
+<div class="app">
+
+    <!-- SIDEBAR -->
+
+    <aside class="sidebar">
+
+        <div class="logo-section">
+
+            <div class="logo-icon">
+                <i class="fas fa-check"></i>
+            </div>
+
+            <div>
+                <h2>TaskFlow</h2>
+                <p>TODO Management</p>
+            </div>
+
+        </div>
+
+
+        <nav class="sidebar-nav">
+
+            <a href="/" class="nav-link">
+
+                <i class="fas fa-table-cells-large"></i>
+
+                <span>Dashboard</span>
+
+            </a>
+
+
+            <a href="/users.html" class="nav-link">
+
+                <i class="fas fa-users"></i>
+
+                <span>Users</span>
+
+            </a>
+
+
+            <a
+                href="/todos.html"
+                class="nav-link active"
+            >
+
+                <i class="fas fa-check"></i>
+
+                <span>Todos</span>
+
+            </a>
+
+        </nav>
+
+    </aside>
+
+
+
+    <!-- MAIN CONTENT -->
+
+    <main class="main-content">
+
+        <header class="page-header">
+
+            <div>
+
+                <h1>Todos</h1>
+
+                <p>
+                    Create and manage tasks for your users.
+                </p>
+
+            </div>
+
+
+            <div class="admin-profile">
+
+                <div class="avatar">
+                    A
+                </div>
+
+                <div>
+
+                    <strong>Admin</strong>
+
+                    <small>
+                        Administrator
+                    </small>
+
+                </div>
+
+            </div>
+
+        </header>
+
+
+
+        <!-- CREATE TODO -->
+
+        <section class="card">
+
+            <div class="card-header">
+
+                <div>
+
+                    <h2 id="todo-form-title">
+                        Add New Todo
+                    </h2>
+
+                    <p>
+                        Create a task and assign it to a user.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <form id="todo-form">
+
+                <input
+                    type="hidden"
+                    id="todo-id"
+                >
+
+
+                <div class="form-grid">
+
+                    <div class="form-group">
+
+                        <label for="description">
+                            Task Description
+                        </label>
+
+                        <input
+                            type="text"
+                            id="description"
+                            placeholder="Enter task description"
+                            required
+                        >
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label for="todo-user">
+                            Assign User
+                        </label>
+
+                        <select
+                            id="todo-user"
+                            required
+                        >
+
+                            <option value="">
+                                Select a user
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label for="completed">
+                            Status
+                        </label>
+
+                        <select id="completed">
+
+                            <option value="0">
+                                Pending
+                            </option>
+
+                            <option value="1">
+                                Completed
+                            </option>
+
+                        </select>
+
+                    </div>
+
+                </div>
+
+
+                <div class="form-actions">
+
+                    <button
+                        type="submit"
+                        class="btn btn-primary"
+                    >
+
+                        <i class="fas fa-plus"></i>
+
+                        <span id="todo-submit-text">
+                            Create Todo
+                        </span>
+
+                    </button>
+
+
+                    <button
+                        type="button"
+                        class="btn btn-secondary"
+                        id="cancel-todo-edit"
+                        style="display:none;"
+                    >
+
+                        Cancel
+
+                    </button>
+
+                </div>
+
+            </form>
+
+
+            <div id="todo-message"></div>
+
+        </section>
+
+
+
+        <!-- TODO LIST -->
+
+        <section class="card">
+
+            <div class="card-header">
+
+                <div>
+
+                    <h2>
+                        All Todos
+                    </h2>
+
+                    <p>
+                        Manage tasks created by users.
+                    </p>
+
+                </div>
+
+
+                <button
+                    type="button"
+                    class="btn btn-secondary"
+                    id="refresh-todos"
+                >
+
+                    <i class="fas fa-refresh"></i>
+
+                    Refresh
+
+                </button>
+
+            </div>
+
+
+            <div id="todo-container">
+
+                <div class="empty-state">
+
+                    <i class="fas fa-spinner fa-spin"></i>
+
+                    <p>
+                        Loading todos...
+                    </p>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+</div>
+
+
+
+<script src="js/api.js"></script>
+
+<script src="js/todos.js"></script>
+
+</body>
+
+</html>

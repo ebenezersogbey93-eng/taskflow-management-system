@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>TaskFlow | Users</title>
+
+    <link rel="stylesheet" href="css/style.css">
+
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+    >
+</head>
+
+<body>
+
+<div class="app">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+
+        <div class="logo-section">
+            <div class="logo-icon">
+                <i class="fas fa-check"></i>
+            </div>
+
+            <div>
+                <h2>TaskFlow</h2>
+                <p>TODO Management</p>
+            </div>
+        </div>
+
+        <nav class="sidebar-nav">
+
+            <a href="/" class="nav-link">
+                <i class="fas fa-table-cells-large"></i>
+                <span>Dashboard</span>
+            </a>
+
+            <a href="/users.html" class="nav-link active">
+                <i class="fas fa-users"></i>
+                <span>Users</span>
+            </a>
+
+            <a href="/todos.html" class="nav-link">
+                <i class="fas fa-check"></i>
+                <span>Todos</span>
+            </a>
+
+        </nav>
+
+    </aside>
+
+
+    <!-- MAIN CONTENT -->
+    <main class="main-content">
+
+        <header class="page-header">
+
+            <div>
+                <h1>Users</h1>
+                <p>Manage users in your TaskFlow system.</p>
+            </div>
+
+            <div class="admin-profile">
+                <div class="avatar">A</div>
+
+                <div>
+                    <strong>Admin</strong>
+                    <small>Administrator</small>
+                </div>
+            </div>
+
+        </header>
+
+
+        <!-- CREATE USER -->
+        <section class="card">
+
+            <div class="card-header">
+                <div>
+                    <h2 id="form-title">Add New User</h2>
+                    <p>Create a new TaskFlow user.</p>
+                </div>
+            </div>
+
+            <form id="user-form">
+
+                <input type="hidden" id="user-id">
+
+                <div class="form-grid">
+
+                    <div class="form-group">
+                        <label for="username">Username</label>
+
+                        <input
+                            type="text"
+                            id="username"
+                            placeholder="Enter username"
+                            required
+                        >
+                    </div>
+
+
+                    <div class="form-group">
+                        <label for="email">Email</label>
+
+                        <input
+                            type="email"
+                            id="email"
+                            placeholder="Enter email"
+                            required
+                        >
+                    </div>
+
+
+                    <div class="form-group">
+                        <label for="password">
+                            Password
+                            <span id="password-note">(required for new users)</span>
+                        </label>
+
+                        <input
+                            type="password"
+                            id="password"
+                            placeholder="Enter password"
+                        >
+                    </div>
+
+                </div>
+
+
+                <div class="form-actions">
+
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-user-plus"></i>
+                        <span id="submit-text">Create User</span>
+                    </button>
+
+                    <button
+                        type="button"
+                        class="btn btn-secondary"
+                        id="cancel-edit"
+                        style="display:none;"
+                    >
+                        Cancel
+                    </button>
+
+                </div>
+
+            </form>
+
+            <div id="user-message"></div>
+
+        </section>
+
+
+        <!-- USERS LIST -->
+        <section class="card">
+
+            <div class="card-header">
+
+                <div>
+                    <h2>All Users</h2>
+                    <p>
+                        <span id="user-count">0</span>
+                        users registered.
+                    </p>
+                </div>
+
+                <button
+                    type="button"
+                    class="btn btn-secondary"
+                    id="refresh-users"
+                >
+                    <i class="fas fa-refresh"></i>
+                    Refresh
+                </button>
+
+            </div>
+
+
+            <div id="user-container">
+
+                <div class="empty-state">
+                    <i class="fas fa-users"></i>
+                    <p>Loading users...</p>
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+</div>
+
+
+<script src="js/api.js"></script>
+<script src="js/users.js"></script>
+
+</body>
+</html>
