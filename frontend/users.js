@@ -8,6 +8,7 @@ const userMessage = document.getElementById("user-message");
 const submitButton = document.getElementById("user-submit-btn");
 const cancelButton = document.getElementById("cancel-user-edit");
 const userSearch = document.getElementById("user-search");
+const userFormTitle = document.getElementById("user-form-title");
 
 let users = [];
 let currentUserPage = 1;
@@ -194,6 +195,7 @@ function resetForm() {
     setFieldError("new-username-error", "");
     setFieldError("new-email-error", "");
     setFieldError("new-password-error", "");
+    userFormTitle.textContent = "Add New User";
     submitButton.textContent = "Add User";
     cancelButton.style.display = "none";
 }
@@ -206,6 +208,7 @@ function editUser(id) {
     usernameInput.value = user.username;
     emailInput.value = user.email;
     passwordInput.value = "";
+    userFormTitle.textContent = `Edit ${user.username}`;
     submitButton.textContent = "Update User";
     cancelButton.style.display = "inline-flex";
     window.scrollTo({ top: 0, behavior: "smooth" });

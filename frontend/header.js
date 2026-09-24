@@ -36,6 +36,19 @@ function loadHeaderActivity() {
         .catch(() => renderNotifications([]));
 }
 
+function loadLoggedInUser() {
+    if (typeof getData !== "function") return;
+
+    getData("/api/me")
+        .then(user => {
+            const username = document.getElementById("profile-username");
+            const avatar = document.getElementById("user-avatar");
+            if (username) username.textContent = user.username;
+            if (avatar) avatar.textContent = user.username.charAt(0).toUpperCase();
+        })
+        .catch(() => undefined);
+}
+
 profileToggle?.addEventListener("click", event => {
     event.stopPropagation();
     profileMenu.hidden = !profileMenu.hidden;
@@ -54,3 +67,4 @@ document.addEventListener("click", () => {
 });
 
 loadHeaderActivity();
+loadLoggedInUser();

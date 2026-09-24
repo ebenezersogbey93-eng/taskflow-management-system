@@ -31,7 +31,9 @@ db.run(`
         user_id INTEGER NOT NULL,
         description TEXT NOT NULL,
         completed INTEGER NOT NULL DEFAULT 0,
-        FOREIGN KEY (user_id) REFERENCES Users(id)
+        priority TEXT NOT NULL DEFAULT 'medium',
+        due_date TEXT,
+        FOREIGN KEY (user_id) REFERENCES Users(id) ON DELETE CASCADE
     )
 `, (err) => {
     if (err) {

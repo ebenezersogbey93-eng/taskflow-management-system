@@ -16,6 +16,10 @@ async function request(url, options = {}) {
     }
 
     if (!response.ok) {
+        if (response.status === 401) {
+            window.location.href = "/login";
+            throw new Error("Your session has expired. Please log in again.");
+        }
         throw new Error(data.error || "Something went wrong.");
     }
 

@@ -41,9 +41,23 @@ function requireAuth(request, response, next) {
     next();
 }
 
-// Serve frontend files
-app.use(express.static(path.join(__dirname, "..", "public")));
+function startSession(response, user) {
+    const token = crypto.randomBytes(32).toString("hex");
+    sessions.set(token, {
+        id: user.id,
+        username: user.username,
+        email: user.email
+    });
+
+    response.setHeader(
+        "Set-Cookie",
+        `${SESSION_COOKIE}=${encodeURIComponent(token)}; HttpOnly; SameSite=Lax; Path=/; Max-Age=86400`
+    );
+}
+
+// Serve current application files before legacy public snapshots.
 app.use(express.static(path.join(__dirname, "..", "frontend")));
+app.use(express.static(path.join(__dirname, "..", "public")));
 
 app.get("/login", (req, res) => {
     if (getSessionUser(req)) return res.redirect("/dashboard");
@@ -69,20 +83,44 @@ app.post("/login", (req, res) => {
                 return res.status(401).json({ error: "Incorrect username or password." });
             }
 
-            const token = crypto.randomBytes(32).toString("hex");
-            sessions.set(token, {
-                id: user.id,
-                username: user.username,
-                email: user.email
-            });
-
-            res.setHeader(
-                "Set-Cookie",
-                `${SESSION_COOKIE}=${encodeURIComponent(token)}; HttpOnly; SameSite=Lax; Path=/; Max-Age=86400`
-            );
+            startSession(res, user);
             res.json({ message: "Login successful.", user: { id: user.id, username: user.username, email: user.email } });
         }
     );
+});
+
+app.post("/register", async (req, res) => {
+    const username = String(req.body.username || "").trim();
+    const email = String(req.body.email || "").trim();
+    const password = String(req.body.password || "");
+
+    if (username.length < 3 || !email || password.length < 6) {
+        return res.status(400).json({
+            error: "Use a username with at least 3 characters, a valid email, and a password with at least 6 characters."
+        });
+    }
+
+    try {
+        const hashedPassword = await bcrypt.hash(password, 10);
+        db.run(
+            "INSERT INTO Users (username, email, password) VALUES (?, ?, ?)",
+            [username, email, hashedPassword],
+            function (error) {
+                if (error) {
+                    if (error.message.includes("UNIQUE")) {
+                        return res.status(409).json({ error: "That username or email is already registered." });
+                    }
+                    return res.status(500).json({ error: "Unable to create your account." });
+                }
+
+                const user = { id: this.lastID, username, email };
+                startSession(res, user);
+                res.status(201).json({ message: "Account created successfully.", user });
+            }
+        );
+    } catch (error) {
+        res.status(500).json({ error: "Unable to create your account." });
+    }
 });
 
 app.get("/", (req, res) => {
@@ -265,6 +303,10 @@ app.get("/", (req, res) => {
 
 app.use("/api", requireAuth);
 
+app.get("/api/me", (req, res) => {
+    res.json(getSessionUser(req));
+});
+
 app.get("/api/stats", (req, res) => {
 
     const stats = {};
@@ -392,11 +434,13 @@ app.get("/api/users/:id", (req, res) => {
 
 app.post("/api/users", async (req, res) => {
 
-    const { username, email, password } = req.body;
+    const username = String(req.body.username || "").trim();
+    const email = String(req.body.email || "").trim().toLowerCase();
+    const password = String(req.body.password || "");
 
-    if (!username || !email || !password) {
+    if (username.length < 3 || !email || password.length < 6) {
         return res.status(400).json({
-            error: "Username, email and password are required."
+            error: "Username must be 3+ characters, email is required, and password must be 6+ characters."
         });
     }
 
@@ -412,7 +456,7 @@ app.post("/api/users", async (req, res) => {
 
         db.run(
             sql,
-            [username.trim(), email.trim(), hashedPassword],
+            [username, email, hashedPassword],
             function (err) {
 
                 if (err) {
@@ -432,8 +476,8 @@ app.post("/api/users", async (req, res) => {
                     message: "User created successfully.",
                     user: {
                         id: this.lastID,
-                        username: username.trim(),
-                        email: email.trim()
+                        username,
+                        email
                     }
                 });
             }
@@ -455,15 +499,13 @@ app.put("/api/users/:id", async (req, res) => {
 
     const id = Number(req.params.id);
 
-    const {
-        username,
-        email,
-        password
-    } = req.body;
+    const username = String(req.body.username || "").trim();
+    const email = String(req.body.email || "").trim().toLowerCase();
+    const password = String(req.body.password || "");
 
-    if (!username || !email) {
+    if (username.length < 3 || !email) {
         return res.status(400).json({
-            error: "Username and email are required."
+            error: "Username must be 3+ characters and email is required."
         });
     }
 
@@ -486,8 +528,8 @@ app.put("/api/users/:id", async (req, res) => {
             db.run(
                 sql,
                 [
-                    username.trim(),
-                    email.trim(),
+                    username,
+                    email,
                     hashedPassword,
                     id
                 ],
@@ -531,8 +573,8 @@ app.put("/api/users/:id", async (req, res) => {
             db.run(
                 sql,
                 [
-                    username.trim(),
-                    email.trim(),
+                    username,
+                    email,
                     id
                 ],
                 function (err) {
@@ -686,14 +728,12 @@ app.get("/api/todos/:id", (req, res) => {
 
 app.post("/api/todos", (req, res) => {
 
-    const {
-        user_id,
-        description,
-        priority = "medium",
-        due_date = null
-    } = req.body;
+    const user_id = Number(req.body.user_id);
+    const description = String(req.body.description || "").trim();
+    const priority = req.body.priority || "medium";
+    const due_date = req.body.due_date || null;
 
-    if (!user_id || !description) {
+    if (!user_id || description.length < 3) {
         return res.status(400).json({
             error: "User and Todo description are required."
         });
@@ -727,7 +767,7 @@ app.post("/api/todos", (req, res) => {
                 sql,
                 [
                     Number(user_id),
-                    description.trim(),
+                    description,
                     ["high", "medium", "low"].includes(priority) ? priority : "medium",
                     due_date || null
                 ],
@@ -744,7 +784,7 @@ app.post("/api/todos", (req, res) => {
                         todo: {
                             id: this.lastID,
                             user_id: Number(user_id),
-                            description: description.trim(),
+                            description,
                             completed: 0,
                             priority,
                             due_date: due_date || null,
@@ -765,15 +805,13 @@ app.put("/api/todos/:id", (req, res) => {
 
     const id = Number(req.params.id);
 
-    const {
-        user_id,
-        description,
-        completed,
-        priority = "medium",
-        due_date = null
-    } = req.body;
+    const user_id = Number(req.body.user_id);
+    const description = String(req.body.description || "").trim();
+    const completed = req.body.completed;
+    const priority = req.body.priority || "medium";
+    const due_date = req.body.due_date || null;
 
-    if (!user_id || !description) {
+    if (!user_id || description.length < 3) {
         return res.status(400).json({
             error: "User and Todo description are required."
         });
@@ -814,7 +852,7 @@ app.put("/api/todos/:id", (req, res) => {
                 sql,
                 [
                     Number(user_id),
-                    description.trim(),
+                    description,
                     completedValue,
                     ["high", "medium", "low"].includes(priority) ? priority : "medium",
                     due_date || null,
