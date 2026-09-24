@@ -13,6 +13,7 @@
     <title>Users | TaskFlow</title>
 
     <link rel="stylesheet" href="/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
 </head>
 
@@ -95,8 +96,41 @@
 
             </div>
 
+            <div class="user-profile">
+                <button type="button" class="header-icon-button notification-button" id="notification-toggle" aria-label="Notifications">🔔<span id="notification-count" class="notification-count">0</span></button>
+                <div class="notification-menu" id="notification-menu" hidden></div>
+                <button type="button" class="profile-trigger" id="profile-toggle"><span class="user-avatar" id="user-avatar">👤</span><span class="profile-copy"><strong id="profile-username">Ebenezer</strong><small>Administrator</small></span><span class="profile-chevron">⌄</span></button>
+                <div class="profile-menu" id="profile-menu" hidden><a href="/users-page">Profile</a><a href="/settings-page">Settings</a><a href="/logout">Logout</a></div>
+            </div>
+
         </header>
 
+        <section class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-icon users-icon">👥</div>
+                <div class="stat-info">
+                    <span>Total Users</span>
+                    <h2 id="total-users">0</h2>
+                    <small>Registered</small>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon todos-icon">✓</div>
+                <div class="stat-info">
+                    <span>Active Tasks</span>
+                    <h2 id="active-tasks">0</h2>
+                    <small>Across users</small>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon completed-icon">●</div>
+                <div class="stat-info">
+                    <span>System Status</span>
+                    <h2>Online</h2>
+                    <small>Healthy</small>
+                </div>
+            </div>
+        </section>
 
         <section class="dashboard-card">
 
@@ -104,36 +138,60 @@
                 Add New User
             </h2>
 
-            <form id="add-user-form">
+            <form id="add-user-form" novalidate>
+
+                <input type="hidden" id="user-id" />
 
                 <div class="form-row">
 
-                    <input
-                        type="text"
-                        id="new-username"
-                        placeholder="Username"
-                        required
-                    >
+                    <div class="field-group">
+                        <input
+                            type="text"
+                            id="new-username"
+                            placeholder="Username"
+                            required
+                            data-field="username"
+                        >
+                        <small class="field-hint" id="new-username-error"></small>
+                    </div>
 
-                    <input
-                        type="email"
-                        id="new-email"
-                        placeholder="Email"
-                        required
-                    >
+                    <div class="field-group">
+                        <input
+                            type="email"
+                            id="new-email"
+                            placeholder="Email"
+                            required
+                            data-field="email"
+                        >
+                        <small class="field-hint" id="new-email-error"></small>
+                    </div>
 
-                    <input
-                        type="password"
-                        id="new-password"
-                        placeholder="Password"
-                        required
-                    >
+                    <div class="field-group">
+                        <input
+                            type="password"
+                            id="new-password"
+                            placeholder="Password"
+                            required
+                            data-field="password"
+                        >
+                        <small class="field-hint" id="new-password-error"></small>
+                    </div>
 
                     <button
                         type="submit"
+                        id="user-submit-btn"
                         class="button-link form-button"
                     >
                         Add User
+                    </button>
+
+                    <button
+                        type="button"
+                        id="cancel-user-edit"
+                        class="button-link form-button secondary-btn"
+                        style="display:none;"
+                    >
+                        Cancel
                     </button>
 
                 </div>
@@ -161,6 +219,15 @@
 
                 </div>
 
+                <div class="filter-bar">
+                    <input
+                        type="search"
+                        id="user-search"
+                        class="search-input"
+                        placeholder="Search users..."
+                    >
+                </div>
+
             </div>
 
 
@@ -172,15 +239,13 @@
 
                         <tr>
 
-                            <th>ID</th>
+                            <th>Profile</th>
 
-                            <th>Username</th>
-
-                            <th>Email</th>
+                            <th>Tasks</th>
 
                             <th>Status</th>
 
-                            <th>Action</th>
+                            <th>Actions</th>
 
                         </tr>
 
@@ -190,8 +255,12 @@
 
                         <tr>
 
-                            <td colspan="5">
-                                Loading users...
+                            <td colspan="4">
+                                <div class="skeleton-list" aria-label="Loading users">
+                                    <span class="skeleton-line"></span>
+                                    <span class="skeleton-line"></span>
+                                    <span class="skeleton-line"></span>
+                                </div>
                             </td>
 
                         </tr>
@@ -202,12 +271,22 @@
 
             </div>
 
+            <div id="user-pagination" class="pagination" aria-label="User pagination"></div>
+
         </section>
+
+        <footer class="site-footer">
+            <strong>TaskFlow v1.0</strong>
+            <span>Built with Node.js &bull; Express &bull; SQLite</span>
+            <span>&copy; 2026</span>
+        </footer>
 
     </main>
 
 </div>
 
+<script src="/api.js"></script>
+<script src="/header.js"></script>
 <script src="/users.js"></script>
 
 </body>

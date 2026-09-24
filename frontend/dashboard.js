@@ -32,6 +32,8 @@ async function loadDashboard() {
             pendingTodos.textContent = stats.pendingTodos;
         }
 
+        await loadCharts();
+        await loadRecentActivities();
         await loadRecentTodos();
 
     } catch (error) {
@@ -106,4 +108,91 @@ function escapeHTML(value) {
         .replace(/>/g, "&gt;")
         .replace(/"/g, "&quot;")
         .replace(/'/g, "&#039;");
+}
+
+async function loadCharts() {
+    const chartData = await getData("/api/chart-data");
+    const usersCanvas = document.getElementById("users-chart");
+    const tasksCanvas = document.getElementById("tasks-chart");
+
+    if (!usersCanvas || !tasksCanvas || typeof Chart === "undefined") {
+        return;
+    }
+
+    const formatMonth = month => {
+        const [year, monthNumber] = month.split("-");
+        return new Date(Number(year), Number(monthNumber) - 1, 1)
+            .toLocaleDateString(undefined, { month: "short", year: "numeric" });
+    };
+
+    new Chart(usersCanvas, {
+        type: "bar",
+        data: {
+            labels: chartData.monthlyUsers.map(item => formatMonth(item.month)),
+            datasets: [{
+                label: "New users",
+                data: chartData.monthlyUsers.map(item => item.count),
+                backgroundColor: "rgba(37, 99, 235, 0.78)",
+                borderRadius: 8,
+                maxBarThickness: 38
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: { legend: { display: false } },
+            scales: {
+                y: { beginAtZero: true, ticks: { precision: 0 } },
+                x: { grid: { display: false } }
+            }
+        }
+    });
+
+    new Chart(tasksCanvas, {
+        type: "doughnut",
+        data: {
+            labels: ["Completed", "Pending"],
+            datasets: [{
+                data: [chartData.status.completed, chartData.status.pending],
+                backgroundColor: ["#22c55e", "#f59e0b"],
+                borderColor: "#ffffff",
+                borderWidth: 4,
+                hoverOffset: 8
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            cutout: "68%",
+            plugins: {
+                legend: { position: "bottom", labels: { usePointStyle: true, padding: 18 } }
+            }
+        }
+    });
+}
+
+async function loadRecentActivities() {
+    const container = document.getElementById("recent-activities");
+    if (!container) return;
+
+    try {
+        const activities = await getData("/api/activity");
+
+        if (!activities.length) {
+            container.innerHTML = '<div class="empty-state"><p>No recent activities yet.</p></div>';
+            return;
+        }
+
+        container.innerHTML = activities.slice(0, 5).map(activity => `
+            <div class="activity-item">
+                <span class="activity-icon">${escapeHTML(activity.icon)}</span>
+                <div>
+                    <strong>${escapeHTML(activity.message)}</strong>
+                    ${activity.detail ? `<small>${escapeHTML(activity.detail)}</small>` : ""}
+                </div>
+            </div>
+        `).join("");
+    } catch (error) {
+        container.innerHTML = '<div class="empty-state"><p>Unable to load recent activities.</p></div>';
+    }
 }

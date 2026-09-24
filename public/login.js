@@ -51,10 +51,7 @@ loginForm.addEventListener("submit", async function (event) {
         message.textContent = "Login successful! Redirecting...";
         message.style.color = "#16a34a";
 
-        // Give the user a short moment to see the success message
-        setTimeout(function () {
-            window.location.href = "/dashboard";
-        }, 700);
+        window.location.href = "/dashboard";
 
     } catch (error) {
         console.error("Login error:", error);

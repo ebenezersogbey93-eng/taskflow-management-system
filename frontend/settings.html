@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Settings | TaskFlow</title>
     <link rel="stylesheet" href="/style.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
 </head>
 <body>
 <div class="layout">
@@ -26,22 +27,74 @@
                 <h1>Settings</h1>
                 <p>Manage your application preferences.</p>
             </div>
+            <div class="user-profile">
+                <button type="button" class="header-icon-button notification-button" id="notification-toggle" aria-label="Notifications">🔔<span id="notification-count" class="notification-count">0</span></button>
+                <div class="notification-menu" id="notification-menu" hidden></div>
+                <button type="button" class="profile-trigger" id="profile-toggle"><span class="user-avatar">👤</span><span class="profile-copy"><strong>Ebenezer</strong><small>Administrator</small></span><span class="profile-chevron">⌄</span></button>
+                <div class="profile-menu" id="profile-menu" hidden><a href="/users-page">Profile</a><a href="/settings-page">Settings</a><a href="/logout">Logout</a></div>
+            </div>
         </header>
 
         <section class="dashboard-card">
-            <h2>App Settings</h2>
-            <form id="settings-form">
-                <div class="form-row">
-                    <input type="text" id="app-name" value="TaskFlow" placeholder="App name" />
-                    <input type="email" id="admin-email" value="admin@taskflow.com" placeholder="Admin email" />
+            <div class="section-header">
+                <div>
+                    <h2>Profile</h2>
+                    <p>Manage your administrator profile.</p>
                 </div>
-                <button type="submit" class="button-link form-button">Save Settings</button>
+            </div>
+            <form id="settings-form" class="settings-form">
+                <div class="form-group">
+                    <label for="profile-name">Name</label>
+                    <input type="text" id="profile-name" value="Ebenezer" required />
+                </div>
+                <div class="form-group">
+                    <label for="profile-email">Email</label>
+                    <input type="email" id="profile-email" value="admin@taskflow.com" required />
+                </div>
+                <div class="form-group">
+                    <label for="profile-password">Password</label>
+                    <input type="password" id="profile-password" placeholder="Enter a new password" minlength="6" />
+                </div>
+                <button type="submit" class="button-link form-button">Save Profile</button>
             </form>
-            <p id="settings-message">Settings are ready to be updated.</p>
+            <p id="settings-message" class="settings-message">Profile settings are ready to be updated.</p>
         </section>
+
+        <section class="settings-grid settings-preferences">
+            <div class="feature-card setting-option">
+                <div class="card-icon blue">🌙</div>
+                <div>
+                    <h3>Theme</h3>
+                    <p>Use a darker interface for low-light work.</p>
+                </div>
+                <label class="toggle-control">
+                    <input type="checkbox" id="dark-mode-toggle">
+                    <span>Dark Mode</span>
+                </label>
+            </div>
+            <div class="feature-card setting-option">
+                <div class="card-icon green">🔔</div>
+                <div>
+                    <h3>Notifications</h3>
+                    <p>Receive important task and account updates.</p>
+                </div>
+                <label class="toggle-control">
+                    <input type="checkbox" id="email-notifications" checked>
+                    <span>Email Notifications</span>
+                </label>
+            </div>
+        </section>
+
+        <footer class="site-footer">
+            <strong>TaskFlow v1.0</strong>
+            <span>Built with Node.js &bull; Express &bull; SQLite</span>
+            <span>&copy; 2026</span>
+        </footer>
     </main>
 </div>
 
-<script src="/users.js"></script>
+<script src="/api.js"></script>
+<script src="/header.js"></script>
+<script src="/settings.js"></script>
 </body>
 </html>

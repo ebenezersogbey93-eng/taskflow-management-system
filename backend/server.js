@@ -2,6 +2,7 @@ const express = require("express");
 const sqlite3 = require("sqlite3").verbose();
 const bcrypt = require("bcrypt");
 const path = require("path");
+const crypto = require("crypto");
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -13,47 +14,135 @@ const PORT = process.env.PORT || 3000;
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+const sessions = new Map();
+const SESSION_COOKIE = "taskflow_session";
+
+function parseCookies(request) {
+    return Object.fromEntries(
+        (request.headers.cookie || "").split(";").filter(Boolean).map(cookie => {
+            const separator = cookie.indexOf("=");
+            return [cookie.slice(0, separator).trim(), decodeURIComponent(cookie.slice(separator + 1))];
+        })
+    );
+}
+
+function getSessionUser(request) {
+    const token = parseCookies(request)[SESSION_COOKIE];
+    return token ? sessions.get(token) : null;
+}
+
+function requireAuth(request, response, next) {
+    if (!getSessionUser(request)) {
+        if (request.path.startsWith("/api/")) {
+            return response.status(401).json({ error: "Please log in to continue." });
+        }
+        return response.redirect("/login");
+    }
+    next();
+}
+
 // Serve frontend files
+app.use(express.static(path.join(__dirname, "..", "public")));
 app.use(express.static(path.join(__dirname, "..", "frontend")));
 
-app.get("/", (req, res) => {
-    res.sendFile(
-        path.join(__dirname, "..", "frontend", "index.html")
+app.get("/login", (req, res) => {
+    if (getSessionUser(req)) return res.redirect("/dashboard");
+    res.sendFile(path.join(__dirname, "..", "public", "login.html"));
+});
+
+app.post("/login", (req, res) => {
+    const username = String(req.body.username || "").trim();
+    const password = String(req.body.password || "");
+
+    if (!username || !password) {
+        return res.status(400).json({ error: "Username and password are required." });
+    }
+
+    db.get(
+        "SELECT id, username, email, password FROM Users WHERE username = ?",
+        [username],
+        async (error, user) => {
+            if (error) return res.status(500).json({ error: "Unable to log in." });
+
+            const validPassword = user && await bcrypt.compare(password, user.password);
+            if (!validPassword) {
+                return res.status(401).json({ error: "Incorrect username or password." });
+            }
+
+            const token = crypto.randomBytes(32).toString("hex");
+            sessions.set(token, {
+                id: user.id,
+                username: user.username,
+                email: user.email
+            });
+
+            res.setHeader(
+                "Set-Cookie",
+                `${SESSION_COOKIE}=${encodeURIComponent(token)}; HttpOnly; SameSite=Lax; Path=/; Max-Age=86400`
+            );
+            res.json({ message: "Login successful.", user: { id: user.id, username: user.username, email: user.email } });
+        }
     );
 });
 
+app.get("/", (req, res) => {
+    res.redirect(getSessionUser(req) ? "/dashboard" : "/login");
+});
+
 app.get("/dashboard", (req, res) => {
+    if (!getSessionUser(req)) return res.redirect("/login");
     res.sendFile(
         path.join(__dirname, "..", "frontend", "index.html")
     );
 });
 
 app.get("/users-page", (req, res) => {
+    if (!getSessionUser(req)) return res.redirect("/login");
     res.sendFile(
         path.join(__dirname, "..", "frontend", "users.html")
     );
 });
 
+app.get("/users-page/:id", (req, res) => {
+    if (!getSessionUser(req)) return res.redirect("/login");
+    res.sendFile(
+        path.join(__dirname, "..", "frontend", "user-detail.html")
+    );
+});
+
 app.get("/todos-page", (req, res) => {
+    if (!getSessionUser(req)) return res.redirect("/login");
     res.sendFile(
         path.join(__dirname, "..", "frontend", "todos.html")
     );
 });
 
+app.get("/todos-page/:id", (req, res) => {
+    if (!getSessionUser(req)) return res.redirect("/login");
+    res.sendFile(
+        path.join(__dirname, "..", "frontend", "todo-detail.html")
+    );
+});
+
 app.get("/settings-page", (req, res) => {
+    if (!getSessionUser(req)) return res.redirect("/login");
     res.sendFile(
         path.join(__dirname, "..", "frontend", "settings.html")
     );
 });
 
 app.get("/help-page", (req, res) => {
+    if (!getSessionUser(req)) return res.redirect("/login");
     res.sendFile(
         path.join(__dirname, "..", "frontend", "help.html")
     );
 });
 
 app.get("/logout", (req, res) => {
-    res.redirect("/");
+    const cookies = parseCookies(req);
+    if (cookies[SESSION_COOKIE]) sessions.delete(cookies[SESSION_COOKIE]);
+    res.setHeader("Set-Cookie", `${SESSION_COOKIE}=; HttpOnly; SameSite=Lax; Path=/; Max-Age=0`);
+    res.redirect("/login");
 });
 
 // ============================================================
@@ -80,13 +169,42 @@ db.run(`
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         username TEXT NOT NULL UNIQUE,
         email TEXT NOT NULL UNIQUE,
-        password TEXT NOT NULL
+        password TEXT NOT NULL,
+        created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
     )
 `, (err) => {
     if (err) {
         console.error("Error creating Users table:", err.message);
     } else {
         console.log("Users table ready.");
+
+        db.all("PRAGMA table_info(Users)", [], (infoError, columns) => {
+            if (infoError) {
+                console.error("Unable to inspect Users table:", infoError.message);
+                return;
+            }
+
+            if (!columns.some(column => column.name === "created_at")) {
+                db.run(
+                    "ALTER TABLE Users ADD COLUMN created_at TEXT",
+                    (alterError) => {
+                        if (alterError) {
+                            console.error("Unable to add user timestamps:", alterError.message);
+                            return;
+                        }
+
+                        db.run(
+                            "UPDATE Users SET created_at = datetime('now') WHERE created_at IS NULL",
+                            (backfillError) => {
+                                if (backfillError) {
+                                    console.error("Unable to backfill user timestamps:", backfillError.message);
+                                }
+                            }
+                        );
+                    }
+                );
+            }
+        });
     }
 });
 
@@ -100,6 +218,8 @@ db.run(`
         user_id INTEGER NOT NULL,
         description TEXT NOT NULL,
         completed INTEGER NOT NULL DEFAULT 0,
+        priority TEXT NOT NULL DEFAULT 'medium',
+        due_date TEXT,
         FOREIGN KEY (user_id)
             REFERENCES Users(id)
             ON DELETE CASCADE
@@ -109,6 +229,26 @@ db.run(`
         console.error("Error creating Todos table:", err.message);
     } else {
         console.log("Todos table ready.");
+
+        db.all("PRAGMA table_info(Todos)", [], (infoError, columns) => {
+            if (infoError) {
+                console.error("Unable to inspect Todos table:", infoError.message);
+                return;
+            }
+
+            const addColumn = (name, definition) => {
+                if (!columns.some(column => column.name === name)) {
+                    db.run(`ALTER TABLE Todos ADD COLUMN ${name} ${definition}`, alterError => {
+                        if (alterError) {
+                            console.error(`Unable to add ${name}:`, alterError.message);
+                        }
+                    });
+                }
+            };
+
+            addColumn("priority", "TEXT");
+            addColumn("due_date", "TEXT");
+        });
     }
 });
 
@@ -122,6 +262,8 @@ app.get("/", (req, res) => {
 // ============================================================
 // DASHBOARD STATISTICS
 // ============================================================
+
+app.use("/api", requireAuth);
 
 app.get("/api/stats", (req, res) => {
 
@@ -474,6 +616,8 @@ app.get("/api/todos", (req, res) => {
             Todos.user_id,
             Todos.description,
             Todos.completed,
+            COALESCE(Todos.priority, 'medium') AS priority,
+            Todos.due_date,
             Users.username,
             Users.email
         FROM Todos
@@ -508,6 +652,8 @@ app.get("/api/todos/:id", (req, res) => {
             Todos.user_id,
             Todos.description,
             Todos.completed,
+            COALESCE(Todos.priority, 'medium') AS priority,
+            Todos.due_date,
             Users.username,
             Users.email
         FROM Todos
@@ -542,7 +688,9 @@ app.post("/api/todos", (req, res) => {
 
     const {
         user_id,
-        description
+        description,
+        priority = "medium",
+        due_date = null
     } = req.body;
 
     if (!user_id || !description) {
@@ -571,15 +719,17 @@ app.post("/api/todos", (req, res) => {
 
             const sql = `
                 INSERT INTO Todos
-                (user_id, description, completed)
-                VALUES (?, ?, 0)
+                (user_id, description, completed, priority, due_date)
+                VALUES (?, ?, 0, ?, ?)
             `;
 
             db.run(
                 sql,
                 [
                     Number(user_id),
-                    description.trim()
+                    description.trim(),
+                    ["high", "medium", "low"].includes(priority) ? priority : "medium",
+                    due_date || null
                 ],
                 function (err) {
 
@@ -596,6 +746,8 @@ app.post("/api/todos", (req, res) => {
                             user_id: Number(user_id),
                             description: description.trim(),
                             completed: 0,
+                            priority,
+                            due_date: due_date || null,
                             username: user.username
                         }
                     });
@@ -616,7 +768,9 @@ app.put("/api/todos/:id", (req, res) => {
     const {
         user_id,
         description,
-        completed
+        completed,
+        priority = "medium",
+        due_date = null
     } = req.body;
 
     if (!user_id || !description) {
@@ -650,7 +804,9 @@ app.put("/api/todos/:id", (req, res) => {
                 UPDATE Todos
                 SET user_id = ?,
                     description = ?,
-                    completed = ?
+                    completed = ?,
+                    priority = ?,
+                    due_date = ?
                 WHERE id = ?
             `;
 
@@ -660,6 +816,8 @@ app.put("/api/todos/:id", (req, res) => {
                     Number(user_id),
                     description.trim(),
                     completedValue,
+                    ["high", "medium", "low"].includes(priority) ? priority : "medium",
+                    due_date || null,
                     id
                 ],
                 function (err) {
@@ -729,4 +887,90 @@ app.listen(PORT, () => {
     console.log("======================================");
     console.log(` http://localhost:${PORT}`);
     console.log("======================================");
+});
+
+app.get("/api/chart-data", (req, res) => {
+    const monthlyUsersQuery = `
+        SELECT
+            strftime('%Y-%m', COALESCE(created_at, datetime('now'))) AS month,
+            COUNT(*) AS count
+        FROM Users
+        WHERE COALESCE(created_at, datetime('now')) >= date('now', '-5 months', 'start of month')
+        GROUP BY month
+        ORDER BY month ASC
+    `;
+
+    db.all(monthlyUsersQuery, [], (usersError, monthlyUsers) => {
+        if (usersError) {
+            return res.status(500).json({ error: usersError.message });
+        }
+
+        db.all(
+            "SELECT completed, COUNT(*) AS count FROM Todos GROUP BY completed",
+            [],
+            (todosError, statusRows) => {
+                if (todosError) {
+                    return res.status(500).json({ error: todosError.message });
+                }
+
+                const status = { completed: 0, pending: 0 };
+                statusRows.forEach(row => {
+                    status[Number(row.completed) === 1 ? "completed" : "pending"] = row.count;
+                });
+
+                res.json({ monthlyUsers, status });
+            }
+        );
+    });
+});
+
+app.get("/api/activity", (req, res) => {
+    const activities = [];
+
+    db.all(
+        "SELECT id, username FROM Users ORDER BY id DESC LIMIT 5",
+        [],
+        (usersError, recentUsers) => {
+            if (usersError) {
+                return res.status(500).json({ error: usersError.message });
+            }
+
+            recentUsers.forEach(user => {
+                activities.push({
+                    id: `user-${user.id}`,
+                    icon: "✓",
+                    message: `${user.username} created User`,
+                    type: "user"
+                });
+            });
+
+            db.all(
+                `
+                    SELECT Todos.id, Todos.description, Todos.completed, Users.username
+                    FROM Todos
+                    INNER JOIN Users ON Users.id = Todos.user_id
+                    ORDER BY Todos.id DESC
+                    LIMIT 5
+                `,
+                [],
+                (todosError, recentTodos) => {
+                    if (todosError) {
+                        return res.status(500).json({ error: todosError.message });
+                    }
+
+                    recentTodos.forEach(todo => {
+                        activities.push({
+                            id: `todo-${todo.id}`,
+                            icon: "✓",
+                            message: `${todo.username} ${todo.completed ? "completed" : "added"} TODO`,
+                            detail: todo.description,
+                            type: "todo"
+                        });
+                    });
+
+                    res.json(activities.slice(0, 8));
+                }
+            );
+        }
+    );
 });

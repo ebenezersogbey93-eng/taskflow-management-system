@@ -13,6 +13,7 @@
     <title>TODOs | TaskFlow</title>
 
     <link rel="stylesheet" href="/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
 </head>
 
@@ -80,8 +81,41 @@
 
             </div>
 
+            <div class="user-profile">
+                <button type="button" class="header-icon-button notification-button" id="notification-toggle" aria-label="Notifications">🔔<span id="notification-count" class="notification-count">0</span></button>
+                <div class="notification-menu" id="notification-menu" hidden></div>
+                <button type="button" class="profile-trigger" id="profile-toggle"><span class="user-avatar" id="user-avatar">👤</span><span class="profile-copy"><strong id="profile-username">Ebenezer</strong><small>Administrator</small></span><span class="profile-chevron">⌄</span></button>
+                <div class="profile-menu" id="profile-menu" hidden><a href="/users-page">Profile</a><a href="/settings-page">Settings</a><a href="/logout">Logout</a></div>
+            </div>
+
         </header>
 
+        <section class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-icon todos-icon">✓</div>
+                <div class="stat-info">
+                    <span>Open Tasks</span>
+                    <h2 id="open-todos">0</h2>
+                    <small>Pending</small>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon completed-icon">✓</div>
+                <div class="stat-info">
+                    <span>Completed</span>
+                    <h2 id="completed-todos">0</h2>
+                    <small>Finished</small>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon pending-icon">●</div>
+                <div class="stat-info">
+                    <span>Focus</span>
+                    <h2>On Track</h2>
+                    <small>Today</small>
+                </div>
+            </div>
+        </section>
 
         <section class="dashboard-card">
 
@@ -89,22 +123,67 @@
                 Add New TODO
             </h2>
 
-            <form id="todo-form">
+            <form id="todo-form" novalidate>
+
+                <input type="hidden" id="todo-id" />
 
                 <div class="todo-form">
 
-                    <input
-                        type="text"
-                        id="todo-description"
-                        placeholder="Enter a new task..."
-                        required
-                    >
+                    <div class="field-group">
+                        <select id="todo-user" required data-field="user">
+                            <option value="">Select user</option>
+                        </select>
+                        <small class="field-hint" id="todo-user-error"></small>
+                    </div>
+
+                    <div class="field-group wide-field">
+                        <input
+                            type="text"
+                            id="todo-description"
+                            placeholder="Enter a new task..."
+                            required
+                            data-field="description"
+                        >
+                        <small class="field-hint" id="todo-description-error"></small>
+                    </div>
+
+                    <div class="field-group compact-field">
+                        <select id="todo-status" data-field="status">
+                            <option value="0">Pending</option>
+                            <option value="1">Completed</option>
+                        </select>
+                        <small class="field-hint" id="todo-status-error"></small>
+                    </div>
+
+                    <div class="field-group compact-field">
+                        <select id="todo-priority" data-field="priority">
+                            <option value="medium">Medium priority</option>
+                            <option value="high">High priority</option>
+                            <option value="low">Low priority</option>
+                        </select>
+                        <small class="field-hint" id="todo-priority-error"></small>
+                    </div>
+
+                    <div class="field-group compact-field">
+                        <input type="date" id="todo-due-date" data-field="due-date">
+                        <small class="field-hint">Optional due date</small>
+                    </div>
 
                     <button
                         type="submit"
+                        id="todo-submit-btn"
                         class="button-link form-button"
                     >
                         Add TODO
+                    </button>
+
+                    <button
+                        type="button"
+                        id="cancel-todo-edit"
+                        class="button-link form-button secondary-btn"
+                        style="display:none;"
+                    >
+                        Cancel
                     </button>
 
                 </div>
@@ -132,6 +211,26 @@
 
                 </div>
 
+                <div class="filter-bar">
+                    <input
+                        type="search"
+                        id="todo-search"
+                        class="search-input"
+                        placeholder="Search tasks..."
+                    >
+                    <select id="todo-status-filter" class="search-input compact-select">
+                        <option value="all">All status</option>
+                        <option value="pending">Pending</option>
+                        <option value="completed">Completed</option>
+                    </select>
+                    <select id="todo-priority-filter" class="search-input compact-select">
+                        <option value="all">All priorities</option>
+                        <option value="high">High</option>
+                        <option value="medium">Medium</option>
+                        <option value="low">Low</option>
+                    </select>
+                </div>
+
             </div>
 
 
@@ -139,15 +238,29 @@
                 id="todo-container"
                 class="todo-container"
             >
-                Loading TODOs...
+                <div class="skeleton-list" aria-label="Loading tasks">
+                    <span class="skeleton-line"></span>
+                    <span class="skeleton-line"></span>
+                    <span class="skeleton-line"></span>
+                </div>
             </div>
 
+            <div id="todo-pagination" class="pagination" aria-label="Todo pagination"></div>
+
         </section>
+
+        <footer class="site-footer">
+            <strong>TaskFlow v1.0</strong>
+            <span>Built with Node.js &bull; Express &bull; SQLite</span>
+            <span>&copy; 2026</span>
+        </footer>
 
     </main>
 
 </div>
 
+<script src="/api.js"></script>
+<script src="/header.js"></script>
 <script src="/todos.js"></script>
 
 </body>

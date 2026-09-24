@@ -13,6 +13,7 @@
     <title>Dashboard | TaskFlow</title>
 
     <link rel="stylesheet" href="/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
 </head>
 
@@ -96,21 +97,17 @@
             </div>
 
             <div class="user-profile">
-
-                <div class="user-avatar" id="user-avatar">
-                    U
-                </div>
-
-                <div>
-
-                    <strong id="profile-username">
-                        User
-                    </strong>
-
-                    <small>
-                        Account
-                    </small>
-
+                <button type="button" class="header-icon-button notification-button" id="notification-toggle" aria-label="Notifications">🔔<span id="notification-count" class="notification-count">0</span></button>
+                <div class="notification-menu" id="notification-menu" hidden></div>
+                <button type="button" class="profile-trigger" id="profile-toggle">
+                    <span class="user-avatar" id="user-avatar">👤</span>
+                    <span class="profile-copy"><strong id="profile-username">Ebenezer</strong><small>Administrator</small></span>
+                    <span class="profile-chevron">⌄</span>
+                </button>
+                <div class="profile-menu" id="profile-menu" hidden>
+                    <a href="/users-page">Profile</a>
+                    <a href="/settings-page">Settings</a>
+                    <a href="/logout">Logout</a>
                 </div>
 
             </div>
@@ -214,112 +211,48 @@
 
                 <a
                     href="/users-page"
-                    class="quick-link"
+                    class="quick-link quick-access-card"
                 >
-
-                    <span class="quick-icon">
-                        👥
-                    </span>
-
-                    <div>
-
-                        <strong>
-                            Manage Users
-                        </strong>
-
-                        <small>
-                            View and manage users
-                        </small>
-
-                    </div>
-
-                    <span class="arrow">
-                        →
-                    </span>
+                    <span class="quick-icon"><i class="fa-solid fa-users" aria-hidden="true"></i></span>
+                    <strong>Users</strong>
+                    <small>Manage Users</small>
+                    <span class="quick-open">Open <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></span>
 
                 </a>
 
 
                 <a
                     href="/todos-page"
-                    class="quick-link"
+                    class="quick-link quick-access-card"
                 >
-
-                    <span class="quick-icon">
-                        ✓
-                    </span>
-
-                    <div>
-
-                        <strong>
-                            Manage TODOs
-                        </strong>
-
-                        <small>
-                            Manage your tasks
-                        </small>
-
-                    </div>
-
-                    <span class="arrow">
-                        →
-                    </span>
+                    <span class="quick-icon"><i class="fa-solid fa-list-check" aria-hidden="true"></i></span>
+                    <strong>TODOs</strong>
+                    <small>Manage Tasks</small>
+                    <span class="quick-open">Open <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></span>
 
                 </a>
 
 
                 <a
                     href="/settings-page"
-                    class="quick-link"
+                    class="quick-link quick-access-card"
                 >
-
-                    <span class="quick-icon">
-                        ⚙
-                    </span>
-
-                    <div>
-
-                        <strong>
-                            Settings
-                        </strong>
-
-                        <small>
-                            Manage your account
-                        </small>
-
-                    </div>
-
-                    <span class="arrow">
-                        →
-                    </span>
+                    <span class="quick-icon"><i class="fa-solid fa-gear" aria-hidden="true"></i></span>
+                    <strong>Settings</strong>
+                    <small>Manage your account</small>
+                    <span class="quick-open">Open <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></span>
 
                 </a>
 
 
                 <a
                     href="/help-page"
-                    class="quick-link"
+                    class="quick-link quick-access-card"
                 >
-
-                    <span class="quick-icon">
-                        ?
-                    </span>
-
-                    <div>
-
-                        <strong>
-                            Help & Support
-                        </strong>
-
-                        <small>
-                            Get help with TaskFlow
-                        </small>
-
-                    </div>
-
-                    <span class="arrow">
-                        →
-                    </span>
+                    <span class="quick-icon"><i class="fa-solid fa-circle-question" aria-hidden="true"></i></span>
+                    <strong>Help</strong>
+                    <small>Get help with TaskFlow</small>
+                    <span class="quick-open">Open <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></span>
 
                 </a>
 
@@ -327,11 +260,56 @@
 
         </section>
 
+        <section class="chart-grid">
+            <article class="dashboard-card chart-card">
+                <div class="section-header">
+                    <div>
+                        <h2>Users Created Per Month</h2>
+                        <p>New user registrations over the last six months.</p>
+                    </div>
+                </div>
+                <div class="chart-wrapper">
+                    <canvas id="users-chart" aria-label="Users created per month" role="img"></canvas>
+                </div>
+            </article>
+
+            <article class="dashboard-card chart-card">
+                <div class="section-header">
+                    <div>
+                        <h2>Task Status</h2>
+                        <p>Completed and pending tasks across the workspace.</p>
+                    </div>
+                </div>
+                <div class="chart-wrapper chart-wrapper-small">
+                    <canvas id="tasks-chart" aria-label="Completed and pending tasks" role="img"></canvas>
+                </div>
+            </article>
+        </section>
+
+        <section class="dashboard-card activity-card">
+            <div class="section-header">
+                <div>
+                    <h2>Recent Activities</h2>
+                    <p>Latest workspace updates.</p>
+                </div>
+            </div>
+            <div id="recent-activities" class="activity-list">Loading activities...</div>
+        </section>
+
+        <footer class="site-footer">
+            <strong>TaskFlow v1.0</strong>
+            <span>Built with Node.js &bull; Express &bull; SQLite</span>
+            <span>&copy; 2026</span>
+        </footer>
+
     </main>
 
 </div>
 
-<script src="/script.js"></script>
+<script src="/api.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
+<script src="/header.js"></script>
+<script src="/dashboard.js"></script>
 
 </body>
 

@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Help | TaskFlow</title>
     <link rel="stylesheet" href="/style.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
 </head>
 <body>
 <div class="layout">
@@ -26,17 +27,51 @@
                 <h1>Help</h1>
                 <p>Quick support and guidance.</p>
             </div>
+            <div class="user-profile">
+                <button type="button" class="header-icon-button notification-button" id="notification-toggle" aria-label="Notifications">🔔<span id="notification-count" class="notification-count">0</span></button>
+                <div class="notification-menu" id="notification-menu" hidden></div>
+                <button type="button" class="profile-trigger" id="profile-toggle"><span class="user-avatar">👤</span><span class="profile-copy"><strong>Ebenezer</strong><small>Administrator</small></span><span class="profile-chevron">⌄</span></button>
+                <div class="profile-menu" id="profile-menu" hidden><a href="/users-page">Profile</a><a href="/settings-page">Settings</a><a href="/logout">Logout</a></div>
+            </div>
         </header>
+
+        <section class="settings-grid">
+            <div class="feature-card">
+                <div class="card-icon blue">❓</div>
+                <h3>Getting Started</h3>
+                <p>See how to create users, assign tasks, and navigate between the main sections of the app.</p>
+            </div>
+            <div class="feature-card">
+                <div class="card-icon green">💡</div>
+                <h3>Best Practices</h3>
+                <p>Keep your task descriptions clear and use the dashboard to manage progress efficiently.</p>
+            </div>
+            <div class="feature-card">
+                <div class="card-icon purple">📞</div>
+                <h3>Support</h3>
+                <p>Reach out to your admin or team lead if you need account or workflow assistance.</p>
+            </div>
+        </section>
 
         <section class="dashboard-card">
             <h2>Frequently Asked Questions</h2>
-            <ul>
-                <li>How do I add a user? Go to Users and fill in the form.</li>
-                <li>How do I create a task? Go to TODOs and enter a task description.</li>
-                <li>How do I return to dashboard? Click Dashboard in the sidebar.</li>
+            <ul class="help-list">
+                <li><strong>How do I create a user?</strong> Go to Users &rarr; Add User, complete the form, and select Add User.</li>
+                <li><strong>How do I create a task?</strong> Go to TODOs &rarr; Add New TODO, choose a user, then enter the task details.</li>
+                <li><strong>How do I return to the dashboard?</strong> Click Dashboard in the sidebar navigation.</li>
+                <li><strong>Where do I update my settings?</strong> Select Settings from the sidebar menu, then update your Profile or Preferences.</li>
+                <li><strong>How do I find a record?</strong> Use the search field on the Users or TODOs page and move through the results with pagination.</li>
             </ul>
         </section>
+
+        <footer class="site-footer">
+            <strong>TaskFlow v1.0</strong>
+            <span>Built with Node.js &bull; Express &bull; SQLite</span>
+            <span>&copy; 2026</span>
+        </footer>
     </main>
 </div>
+<script src="/api.js"></script>
+<script src="/header.js"></script>
 </body>
 </html>
