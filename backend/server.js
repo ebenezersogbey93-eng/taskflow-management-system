@@ -55,13 +55,12 @@ function startSession(response, user) {
     );
 }
 
-// Serve current application files before legacy public snapshots.
+// Serve the single frontend application directory.
 app.use(express.static(path.join(__dirname, "..", "frontend")));
-app.use(express.static(path.join(__dirname, "..", "public")));
 
 app.get("/login", (req, res) => {
     if (getSessionUser(req)) return res.redirect("/dashboard");
-    res.sendFile(path.join(__dirname, "..", "public", "login.html"));
+    res.sendFile(path.join(__dirname, "..", "frontend", "login.html"));
 });
 
 app.post("/login", (req, res) => {
@@ -290,13 +289,6 @@ db.run(`
     }
 });
 
-// ============================================================
-// HOME PAGE
-// ============================================================
-
-app.get("/", (req, res) => {
-    res.sendFile(path.join(__dirname, "public", "index.html"));
-});
 // ============================================================
 // DASHBOARD STATISTICS
 // ============================================================

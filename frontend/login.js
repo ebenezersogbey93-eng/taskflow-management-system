@@ -30,11 +30,9 @@ loginForm.addEventListener("submit", async function (event) {
     const password = passwordInput.value;
     const email = emailInput.value.trim();
 
-    // Clear previous message
     message.textContent = "";
     message.style.color = "";
 
-    // Check that both fields have been filled
     if (!username || !password || (registerMode && !email)) {
         message.textContent = registerMode ? "Please complete all registration fields." : "Please enter your username and password.";
         message.style.color = "#dc2626";
@@ -47,7 +45,6 @@ loginForm.addEventListener("submit", async function (event) {
         return;
     }
 
-    // Show loading message
     message.textContent = registerMode ? "Creating your account..." : "Logging in...";
     message.style.color = "#2563eb";
 
@@ -58,23 +55,20 @@ loginForm.addEventListener("submit", async function (event) {
                 "Content-Type": "application/json"
             },
             body: JSON.stringify({
-                username: username,
-                password: password,
+                username,
+                password,
                 ...(registerMode ? { email } : {})
             })
         });
 
         const data = await response.json();
 
-        // Login failed
         if (!response.ok) {
-            message.textContent =
-                data.error || "Incorrect username or password.";
+            message.textContent = data.error || "Incorrect username or password.";
             message.style.color = "#dc2626";
             return;
         }
 
-        // Login successful
         message.textContent = registerMode ? "Account created! Redirecting..." : "Login successful! Redirecting...";
         message.style.color = "#16a34a";
 
@@ -82,9 +76,7 @@ loginForm.addEventListener("submit", async function (event) {
 
     } catch (error) {
         console.error("Login error:", error);
-
-        message.textContent =
-            "Unable to connect to the server. Please make sure the server is running.";
+        message.textContent = "Unable to connect to the server. Please make sure the server is running.";
         message.style.color = "#dc2626";
     }
 });
