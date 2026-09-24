@@ -35,29 +35,34 @@
             </div>
         </header>
 
-        <section class="dashboard-card">
-            <div class="section-header">
+        <section class="dashboard-card profile-settings-card">
+            <div class="profile-settings-heading">
+                <div class="profile-settings-avatar"><i class="fa-solid fa-user-gear" aria-hidden="true"></i></div>
                 <div>
+                    <p class="settings-eyebrow">ACCOUNT SETTINGS</p>
                     <h2>Profile</h2>
                     <p>Manage your administrator profile.</p>
                 </div>
             </div>
             <form id="settings-form" class="settings-form">
                 <div class="form-group">
-                    <label for="profile-name">Name</label>
+                    <label for="profile-name"><i class="fa-solid fa-user" aria-hidden="true"></i> Name</label>
                     <input type="text" id="profile-name" value="Ebenezer" required />
                 </div>
                 <div class="form-group">
-                    <label for="profile-email">Email</label>
+                    <label for="profile-email"><i class="fa-solid fa-envelope" aria-hidden="true"></i> Email</label>
                     <input type="email" id="profile-email" value="admin@taskflow.com" required />
                 </div>
                 <div class="form-group">
-                    <label for="profile-password">Password</label>
+                    <label for="profile-password"><i class="fa-solid fa-lock" aria-hidden="true"></i> Password</label>
                     <input type="password" id="profile-password" placeholder="Enter a new password" minlength="6" />
                 </div>
-                <button type="submit" class="button-link form-button">Save Profile</button>
+                <div class="settings-form-actions">
+                    <span><i class="fa-solid fa-shield-halved" aria-hidden="true"></i> Your information stays private.</span>
+                    <button type="submit" class="button-link form-button"><i class="fa-solid fa-check" aria-hidden="true"></i> Save Profile</button>
+                </div>
             </form>
-            <p id="settings-message" class="settings-message">Profile settings are ready to be updated.</p>
+            <p id="settings-message" class="settings-message"><i class="fa-solid fa-circle-info" aria-hidden="true"></i> Profile settings are ready to be updated.</p>
         </section>
 
         <section class="settings-grid settings-preferences">

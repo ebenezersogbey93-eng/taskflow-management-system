@@ -1004,8 +1004,148 @@ body.dark-mode .toggle-control {
     align-items: end;
 }
 
+.profile-settings-card {
+    position: relative;
+    overflow: hidden;
+    border: 1px solid #dbe5f2;
+    background: linear-gradient(135deg, #ffffff 0%, #f8fbff 100%);
+}
+
+.profile-settings-card::before {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 5px;
+    background: linear-gradient(90deg, #2563eb, #38bdf8, #14b8a6);
+    content: "";
+}
+
+.profile-settings-heading {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 28px;
+}
+
+.profile-settings-avatar {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 52px;
+    height: 52px;
+    flex: 0 0 52px;
+    border-radius: 16px;
+    background: linear-gradient(135deg, #2563eb, #0ea5e9);
+    color: #ffffff;
+    font-size: 1.25rem;
+    box-shadow: 0 10px 22px rgba(37, 99, 235, 0.22);
+}
+
+.settings-eyebrow {
+    margin-bottom: 4px;
+    color: #2563eb;
+    font-size: 0.7rem;
+    font-weight: 800;
+    letter-spacing: 0.12em;
+}
+
+.profile-settings-heading h2 {
+    color: #0f172a;
+    font-size: 1.45rem;
+}
+
+.profile-settings-heading > div:last-child > p:last-child {
+    margin-top: 4px;
+    color: #64748b;
+}
+
+.profile-settings-card .form-group {
+    gap: 8px;
+}
+
+.profile-settings-card .form-group label {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    color: #1e3a5f;
+    font-size: 0.86rem;
+    font-weight: 700;
+}
+
+.profile-settings-card .form-group label i {
+    color: #2563eb;
+    font-size: 0.78rem;
+}
+
+.profile-settings-card .form-group input {
+    min-height: 50px;
+    border: 1px solid #d5e0ee;
+    border-radius: 11px;
+    background: #ffffff;
+    transition: border-color 180ms ease, box-shadow 180ms ease;
+}
+
+.profile-settings-card .form-group input:focus {
+    border-color: #38bdf8;
+    box-shadow: 0 0 0 4px rgba(56, 189, 248, 0.16);
+    outline: none;
+}
+
+.settings-form-actions {
+    display: flex;
+    grid-column: 1 / -1;
+    align-items: center;
+    justify-content: space-between;
+    gap: 18px;
+    margin-top: 4px;
+    padding-top: 18px;
+    border-top: 1px solid #e5edf6;
+}
+
+.settings-form-actions > span {
+    color: #64748b;
+    font-size: 0.82rem;
+}
+
+.settings-form-actions > span i {
+    margin-right: 5px;
+    color: #14b8a6;
+}
+
+.profile-settings-card .form-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 9px;
+    min-height: 46px;
+    padding: 12px 22px;
+    border: 0;
+    border-radius: 10px;
+    background: linear-gradient(135deg, #2563eb, #0ea5e9);
+    color: #ffffff;
+    font: inherit;
+    font-weight: 700;
+    cursor: pointer;
+    box-shadow: 0 9px 18px rgba(37, 99, 235, 0.22);
+    transition: transform 180ms ease, box-shadow 180ms ease, filter 180ms ease;
+}
+
+.profile-settings-card .form-button:hover {
+    filter: saturate(1.15) brightness(0.96);
+    transform: translateY(-2px);
+    box-shadow: 0 13px 24px rgba(37, 99, 235, 0.3);
+}
+
+.profile-settings-card .form-button:active {
+    transform: translateY(0);
+}
+
 .settings-message {
-    margin-top: 14px;
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    margin-top: 16px;
     color: #64748b;
     font-size: 0.88rem;
 }
@@ -3618,6 +3758,15 @@ tr:hover {
 
     .settings-form {
         grid-template-columns: 1fr;
+    }
+
+    .settings-form-actions {
+        align-items: stretch;
+        flex-direction: column;
+    }
+
+    .profile-settings-card .form-button {
+        width: 100%;
     }
 
     .todo-form {
